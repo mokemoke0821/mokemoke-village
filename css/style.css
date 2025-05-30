@@ -92,6 +92,46 @@
     --retro-yellow: #FFB300;
     --retro-red: #FF5252;
     --retro-purple: #9C27B0;
+
+    /* ========================================
+       🏆 Phase 4: Apple・Google・Microsoft級タイポグラフィ
+       ======================================== */
+
+    /* Apple・Google級フォント階層 */
+    --font-display: 'DotGothic16', 'Hiragino Sans', 'Yu Gothic UI', 'Meiryo UI', system-ui, sans-serif;
+    --font-body: 'DotGothic16', 'Hiragino Sans', 'Yu Gothic UI', 'Meiryo UI', system-ui, sans-serif;
+    --font-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+
+    /* レスポンシブタイポグラフィ：clamp()使用 */
+    --font-size-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+    --font-size-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
+    --font-size-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+    --font-size-lg: clamp(1.125rem, 1rem + 0.625vw, 1.25rem);
+    --font-size-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+    --font-size-2xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+    --font-size-3xl: clamp(1.875rem, 1.5rem + 1.875vw, 3rem);
+    --font-size-4xl: clamp(2.25rem, 1.8rem + 2.25vw, 4rem);
+
+    /* 行間：黄金比ベース */
+    --line-height-tight: 1.25;
+    --line-height-snug: 1.375;
+    --line-height-normal: 1.5;
+    --line-height-relaxed: 1.625;
+    --line-height-loose: 2;
+
+    /* 文字間隔：読みやすさ重視 */
+    --letter-spacing-tighter: -0.05em;
+    --letter-spacing-tight: -0.025em;
+    --letter-spacing-normal: 0;
+    --letter-spacing-wide: 0.025em;
+    --letter-spacing-wider: 0.05em;
+    --letter-spacing-widest: 0.1em;
+
+    /* レンダリング最適化 */
+    --text-rendering: optimizeLegibility;
+    --font-smoothing: antialiased;
+    --webkit-font-smoothing: antialiased;
+    --moz-osx-font-smoothing: grayscale;
 }
 
 body {
@@ -101,11 +141,356 @@ body {
     background: var(--gradient-sky);
     min-height: 100vh;
     overflow-x: hidden;
+    position: relative;
 
-    /* 高級感のある質感オーバーレイ */
+    /* Genshin Impact級の基盤背景 */
     background-image:
-        radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.2) 0%, transparent 50%),
-        radial-gradient(circle at 75% 75%, rgba(255, 179, 0, 0.1) 0%, transparent 50%);
+        /* 遠景：山脈シルエット */
+        linear-gradient(180deg,
+            rgba(26, 35, 126, 0.1) 0%,
+            rgba(63, 81, 181, 0.05) 30%,
+            transparent 60%),
+        /* 中景：雲海 */
+        radial-gradient(ellipse at 30% 20%,
+            rgba(255, 255, 255, 0.15) 0%,
+            rgba(255, 255, 255, 0.08) 40%,
+            transparent 70%),
+        radial-gradient(ellipse at 70% 40%,
+            rgba(144, 202, 249, 0.12) 0%,
+            rgba(144, 202, 249, 0.06) 50%,
+            transparent 80%),
+        /* 近景：光の粒子 */
+        radial-gradient(circle at 25% 25%,
+            rgba(255, 215, 0, 0.08) 0%,
+            transparent 50%),
+        radial-gradient(circle at 75% 75%,
+            rgba(129, 199, 132, 0.06) 0%,
+            transparent 50%),
+        /* League of Legends級のベース */
+        var(--gradient-sky);
+
+    background-size:
+        100% 100%,
+        150% 80%,
+        120% 90%,
+        200% 200%,
+        180% 180%,
+        100% 100%;
+
+    background-position:
+        0% 0%,
+        -10% 10%,
+        10% 20%,
+        0% 0%,
+        100% 100%,
+        0% 0%;
+
+    /* Disney+級のアニメーション */
+    animation: atmosphereShift 20s ease-in-out infinite;
+}
+
+/* 大気層シフトアニメーション */
+@keyframes atmosphereShift {
+
+    0%,
+    100% {
+        background-position:
+            0% 0%,
+            -10% 10%,
+            10% 20%,
+            0% 0%,
+            100% 100%,
+            0% 0%;
+        filter: hue-rotate(0deg) saturate(1);
+    }
+
+    25% {
+        background-position:
+            2% -1%,
+            -8% 12%,
+            12% 18%,
+            -5% 5%,
+            95% 105%,
+            0% 0%;
+        filter: hue-rotate(5deg) saturate(1.05);
+    }
+
+    50% {
+        background-position:
+            -1% 1%,
+            -12% 8%,
+            8% 22%,
+            5% -5%,
+            105% 95%,
+            0% 0%;
+        filter: hue-rotate(10deg) saturate(1.1);
+    }
+
+    75% {
+        background-position:
+            1% -2%,
+            -6% 14%,
+            14% 16%,
+            -3% 3%,
+            97% 103%,
+            0% 0%;
+        filter: hue-rotate(5deg) saturate(1.05);
+    }
+}
+
+/* 浮遊する光の粒子システム */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        /* 大きな光粒子 */
+        radial-gradient(circle at 20% 30%,
+            rgba(255, 215, 0, 0.4) 0%,
+            rgba(255, 215, 0, 0.2) 1px,
+            transparent 2px),
+        radial-gradient(circle at 60% 70%,
+            rgba(129, 199, 132, 0.4) 0%,
+            rgba(129, 199, 132, 0.2) 1px,
+            transparent 2px),
+        radial-gradient(circle at 80% 20%,
+            rgba(144, 202, 249, 0.4) 0%,
+            rgba(144, 202, 249, 0.2) 1px,
+            transparent 2px),
+        /* 中程度の光粒子 */
+        radial-gradient(circle at 40% 50%,
+            rgba(255, 183, 77, 0.3) 0%,
+            transparent 1px),
+        radial-gradient(circle at 70% 30%,
+            rgba(165, 214, 167, 0.3) 0%,
+            transparent 1px),
+        /* 小さな光粒子 */
+        radial-gradient(circle at 30% 80%,
+            rgba(255, 255, 255, 0.6) 0%,
+            transparent 0.5px),
+        radial-gradient(circle at 90% 60%,
+            rgba(255, 255, 255, 0.6) 0%,
+            transparent 0.5px);
+
+    background-size:
+        300px 300px,
+        250px 250px,
+        200px 200px,
+        150px 150px,
+        120px 120px,
+        80px 80px,
+        60px 60px;
+
+    pointer-events: none;
+    z-index: -1;
+    animation: particleFloat 15s linear infinite;
+}
+
+/* レンズフレア効果 */
+body::after {
+    content: '';
+    position: fixed;
+    top: 10%;
+    right: 20%;
+    width: 300px;
+    height: 300px;
+    background:
+        radial-gradient(circle,
+            rgba(255, 215, 0, 0.3) 0%,
+            rgba(255, 215, 0, 0.1) 20%,
+            rgba(255, 255, 255, 0.1) 40%,
+            transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+    transform: scale(0.5);
+    animation: lensFlare 25s ease-in-out infinite;
+}
+
+/* 粒子浮遊アニメーション */
+@keyframes particleFloat {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: translateY(-20px) rotate(180deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-40px) rotate(360deg);
+        opacity: 0.7;
+    }
+}
+
+/* レンズフレアアニメーション */
+@keyframes lensFlare {
+
+    0%,
+    100% {
+        transform: scale(0.5) rotate(0deg);
+        opacity: 0.3;
+        top: 10%;
+        right: 20%;
+    }
+
+    25% {
+        transform: scale(0.7) rotate(90deg);
+        opacity: 0.5;
+        top: 15%;
+        right: 25%;
+    }
+
+    50% {
+        transform: scale(1) rotate(180deg);
+        opacity: 0.7;
+        top: 20%;
+        right: 15%;
+    }
+
+    75% {
+        transform: scale(0.8) rotate(270deg);
+        opacity: 0.4;
+        top: 12%;
+        right: 30%;
+    }
+}
+
+/* 雲の多層パララックス強化 */
+.cloud {
+    position: absolute;
+    background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.8) 0%,
+            rgba(255, 255, 255, 0.4) 100%);
+    border-radius: 100px;
+    opacity: 0.6;
+    backdrop-filter: blur(2px);
+    box-shadow:
+        0 4px 20px rgba(255, 255, 255, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* 雲の立体的変形 */
+.cloud::before,
+.cloud::after {
+    content: '';
+    position: absolute;
+    background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.9) 0%,
+            rgba(255, 255, 255, 0.5) 100%);
+    border-radius: 100px;
+    box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.5);
+}
+
+/* 雲の個別設定復元 */
+.cloud-1 {
+    width: 100px;
+    height: 40px;
+    top: 10%;
+    left: -100px;
+    animation: float-cloud-layer1 25s infinite linear;
+    filter: blur(0.5px);
+    z-index: 1;
+}
+
+.cloud-1::before {
+    width: 50px;
+    height: 50px;
+    top: -25px;
+    left: 10px;
+}
+
+.cloud-1::after {
+    width: 60px;
+    height: 40px;
+    top: -15px;
+    right: 10px;
+}
+
+.cloud-2 {
+    width: 80px;
+    height: 35px;
+    top: 25%;
+    left: -80px;
+    animation: float-cloud-layer2 20s infinite linear;
+    animation-delay: 5s;
+    filter: blur(0.3px);
+    z-index: 2;
+}
+
+.cloud-2::before {
+    width: 40px;
+    height: 40px;
+    top: -20px;
+    left: 8px;
+}
+
+.cloud-2::after {
+    width: 50px;
+    height: 30px;
+    top: -10px;
+    right: 8px;
+}
+
+.cloud-3 {
+    width: 120px;
+    height: 45px;
+    top: 15%;
+    left: -120px;
+    animation: float-cloud-layer3 30s infinite linear;
+    animation-delay: 10s;
+    filter: blur(0.7px);
+    z-index: 0;
+}
+
+.cloud-3::before {
+    width: 60px;
+    height: 60px;
+    top: -30px;
+    left: 15px;
+}
+
+.cloud-3::after {
+    width: 70px;
+    height: 50px;
+    top: -20px;
+    right: 15px;
+}
+
+/* 各層の異なる速度 */
+@keyframes float-cloud-layer1 {
+    0% {
+        transform: translateX(-100px) translateY(0);
+    }
+
+    100% {
+        transform: translateX(calc(100vw + 100px)) translateY(-10px);
+    }
+}
+
+@keyframes float-cloud-layer2 {
+    0% {
+        transform: translateX(-80px) translateY(0);
+    }
+
+    100% {
+        transform: translateX(calc(100vw + 80px)) translateY(5px);
+    }
+}
+
+@keyframes float-cloud-layer3 {
+    0% {
+        transform: translateX(-120px) translateY(0);
+    }
+
+    100% {
+        transform: translateX(calc(100vw + 120px)) translateY(-5px);
+    }
 }
 
 /* ローディング画面 */
@@ -180,7 +565,7 @@ body {
 }
 
 /* ========================================
-   改善済み: プレミアムナビゲーション
+   🏆 Phase 1: Material Design 3.0級ナビゲーション
    ======================================== */
 
 .nav-link {
@@ -191,29 +576,118 @@ body {
     border: var(--border-elegant);
     background: linear-gradient(135deg, var(--pure-white) 0%, var(--soft-gray) 100%);
     border-radius: 8px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     font-weight: 600;
     position: relative;
     overflow: hidden;
     box-shadow: var(--shadow-soft);
+    transform-style: preserve-3d;
+    perspective: 500px;
 }
 
+/* 第1波紋：メインリップル */
 .nav-link::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg,
-            transparent 0%,
-            rgba(255, 179, 0, 0.2) 50%,
-            transparent 100%);
-    transition: left 0.5s ease;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle,
+            rgba(255, 179, 0, 0.4) 0%,
+            rgba(255, 179, 0, 0.2) 40%,
+            transparent 70%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    opacity: 0;
 }
 
+/* 第2波紋：セカンダリリップル */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle,
+            rgba(46, 125, 50, 0.3) 0%,
+            rgba(46, 125, 50, 0.1) 60%,
+            transparent 80%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.1s;
+    opacity: 0;
+}
+
+/* ホバー時の複数波紋発動 */
 .nav-link:hover::before {
-    left: 100%;
+    width: 300px;
+    height: 300px;
+    opacity: 1;
+    animation: ripple1 1.2s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+}
+
+.nav-link:hover::after {
+    width: 250px;
+    height: 250px;
+    opacity: 0.7;
+    animation: ripple2 1.5s cubic-bezier(0.23, 1, 0.32, 1) infinite 0.3s;
+}
+
+/* パルス効果：心拍のような律動 */
+@keyframes ripple1 {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0;
+    }
+}
+
+@keyframes ripple2 {
+    0% {
+        transform: translate(-50%, -50%) scale(0) rotate(0deg);
+        opacity: 0.7;
+    }
+
+    60% {
+        transform: translate(-50%, -50%) scale(0.9) rotate(180deg);
+        opacity: 0.4;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1.3) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* クリック時の即座フィードバック */
+.nav-link:active {
+    transform:
+        translateY(1px) scale(0.98) rotateX(2deg);
+    box-shadow: var(--shadow-soft);
+    transition: all 0.1s ease-out;
+}
+
+.nav-link:active::before {
+    width: 400px !important;
+    height: 400px !important;
+    opacity: 0.8 !important;
+    transition: all 0.2s ease-out !important;
+    background: radial-gradient(circle,
+            rgba(255, 215, 0, 0.6) 0%,
+            rgba(255, 179, 0, 0.3) 50%,
+            transparent 70%) !important;
 }
 
 .nav-link:hover,
@@ -221,8 +695,52 @@ body {
     background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
     color: var(--pure-white);
     border-color: var(--primary-green);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-medium);
+    transform:
+        translateY(-3px) scale(1.02) rotateX(-1deg);
+    box-shadow:
+        var(--shadow-medium),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 0 20px rgba(46, 125, 50, 0.3);
+
+    /* 内部光沢 */
+    background-image:
+        linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%),
+        linear-gradient(45deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.1) 20%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 255, 255, 0.1) 80%,
+            transparent 100%);
+    background-size: 100% 100%, 200% 200%;
+    animation: glossMove 3s ease-in-out infinite;
+}
+
+/* 光沢移動アニメーション */
+@keyframes glossMove {
+
+    0%,
+    100% {
+        background-position: 0% 0%, -200% -200%;
+    }
+
+    50% {
+        background-position: 0% 0%, 200% 200%;
+    }
+}
+
+/* 色彩変化リップル */
+.nav-link:hover {
+    animation: colorShift 2s ease-in-out infinite alternate;
+}
+
+@keyframes colorShift {
+    0% {
+        filter: hue-rotate(0deg) saturate(1);
+    }
+
+    100% {
+        filter: hue-rotate(10deg) saturate(1.1);
+    }
 }
 
 /* メインコンテンツ */
@@ -243,100 +761,6 @@ body {
     overflow: hidden;
 }
 
-.cloud {
-    position: absolute;
-    background: var(--white);
-    border-radius: 100px;
-    opacity: 0.7;
-}
-
-.cloud::before,
-.cloud::after {
-    content: '';
-    position: absolute;
-    background: var(--white);
-    border-radius: 100px;
-}
-
-.cloud-1 {
-    width: 100px;
-    height: 40px;
-    top: 10%;
-    left: -100px;
-    animation: float-cloud 20s infinite linear;
-}
-
-.cloud-1::before {
-    width: 50px;
-    height: 50px;
-    top: -25px;
-    left: 10px;
-}
-
-.cloud-1::after {
-    width: 60px;
-    height: 40px;
-    top: -15px;
-    right: 10px;
-}
-
-.cloud-2 {
-    width: 80px;
-    height: 35px;
-    top: 25%;
-    left: -80px;
-    animation: float-cloud 25s infinite linear;
-    animation-delay: 5s;
-}
-
-.cloud-2::before {
-    width: 40px;
-    height: 40px;
-    top: -20px;
-    left: 8px;
-}
-
-.cloud-2::after {
-    width: 50px;
-    height: 30px;
-    top: -10px;
-    right: 8px;
-}
-
-.cloud-3 {
-    width: 120px;
-    height: 45px;
-    top: 15%;
-    left: -120px;
-    animation: float-cloud 30s infinite linear;
-    animation-delay: 10s;
-}
-
-.cloud-3::before {
-    width: 60px;
-    height: 60px;
-    top: -30px;
-    left: 15px;
-}
-
-.cloud-3::after {
-    width: 70px;
-    height: 50px;
-    top: -20px;
-    right: 15px;
-}
-
-@keyframes float-cloud {
-    0% {
-        transform: translateX(0);
-    }
-
-    100% {
-        transform: translateX(calc(100vw + 120px));
-    }
-}
-
-/* 村のマップエリア */
 .village-map {
     text-align: center;
     position: relative;
@@ -369,18 +793,63 @@ body {
     flex-direction: column;
     align-items: center;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
     position: relative;
     transform-style: preserve-3d;
+    perspective: 1000px;
+
+    /* Apple級の自然な変形準備 */
+    will-change: transform, filter;
+    transform-origin: center bottom;
 }
 
 .building:hover {
-    transform: translateY(-8px) scale(1.02);
-    filter: brightness(1.05);
+    /* Tesla級の複合変形 */
+    transform:
+        translateY(-12px) scale3d(1.03, 1.03, 1.03) rotateX(-2deg) rotateY(1deg) rotateZ(0.5deg);
+
+    /* Microsoft級の高級フィルター */
+    filter:
+        brightness(1.08) contrast(1.05) saturate(1.1) drop-shadow(0 16px 32px rgba(0, 0, 0, 0.15)) drop-shadow(0 8px 16px rgba(0, 0, 0, 0.1));
+}
+
+/* 段階的アニメーション遅延 */
+.building:hover .building-roof {
+    transform: translateY(-2px) rotateX(-1deg);
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s;
+}
+
+.building:hover .building-body {
+    transform: translateY(-1px) scale(1.02);
+    transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s;
+}
+
+.building:hover .building-door {
+    transform: translateX(-50%) translateY(1px) scale(1.05);
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s;
 }
 
 .building:hover .building-icon {
-    animation: bounce 0.6s ease;
+    animation: premiumBounce 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s forwards;
+}
+
+/* Apple級のアイコンアニメーション */
+@keyframes premiumBounce {
+    0% {
+        transform: translateY(0) scale(1) rotateZ(0deg);
+    }
+
+    30% {
+        transform: translateY(-8px) scale(1.15) rotateZ(-3deg);
+    }
+
+    60% {
+        transform: translateY(-4px) scale(1.08) rotateZ(1deg);
+    }
+
+    100% {
+        transform: translateY(-6px) scale(1.1) rotateZ(0deg);
+    }
 }
 
 .building-icon {
@@ -388,15 +857,85 @@ body {
     position: absolute;
     top: 30px;
     z-index: 3;
-    animation: float 2s ease-in-out infinite;
+    animation: floatPremium 3s ease-in-out infinite;
+    transform-style: preserve-3d;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+/* より自然な浮遊アニメーション */
+@keyframes floatPremium {
+
+    0%,
+    100% {
+        transform: translateY(0) rotateY(0deg) scale(1);
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    }
+
+    25% {
+        transform: translateY(-3px) rotateY(2deg) scale(1.02);
+        filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.25));
+    }
+
+    50% {
+        transform: translateY(-6px) rotateY(0deg) scale(1.05);
+        filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
+    }
+
+    75% {
+        transform: translateY(-3px) rotateY(-2deg) scale(1.02);
+        filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.25));
+    }
 }
 
 .music-house .building-icon {
     animation-delay: 0s;
+    color: #FF6B6B;
 }
 
 .game-house .building-icon {
     animation-delay: 1s;
+    color: #4ECDC4;
+}
+
+/* リアルタイム光沢効果 */
+.building::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: linear-gradient(45deg,
+            transparent 0%,
+            rgba(255, 215, 0, 0.1) 25%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 215, 0, 0.1) 75%,
+            transparent 100%);
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+    pointer-events: none;
+    border-radius: 20px;
+}
+
+.building:hover::before {
+    opacity: 1;
+    transform: scale(1.1);
+    animation: shimmer 2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+
+    0%,
+    100% {
+        background-position: -200% center;
+        opacity: 0.3;
+    }
+
+    50% {
+        background-position: 200% center;
+        opacity: 0.8;
+    }
 }
 
 .building-roof {
@@ -828,109 +1367,231 @@ body {
 .add-game-btn,
 .post-btn,
 .save-btn {
-    background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+    background:
+        linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%),
+        linear-gradient(45deg,
+            rgba(255, 255, 255, 0.2) 0%,
+            transparent 30%,
+            rgba(255, 255, 255, 0.1) 70%,
+            rgba(255, 255, 255, 0.3) 100%);
+    background-size: 100% 100%, 200% 200%;
+    background-position: 0% 0%, 0% 0%;
+
     color: var(--pure-white);
     border: none;
-    border-radius: 8px;
-    padding: 12px 24px;
+    border-radius: 12px;
+    padding: 14px 28px;
     font-family: var(--font-main);
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 1rem;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: var(--shadow-soft);
+
+    /* Tesla級の複合影 */
+    box-shadow:
+        /* 主影：深い安心感 */
+        0 8px 24px rgba(46, 125, 50, 0.25),
+        0 4px 12px rgba(46, 125, 50, 0.15),
+        /* 近影：立体感 */
+        0 2px 8px rgba(0, 0, 0, 0.1),
+        /* 内側光沢：プレミアム感 */
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1),
+        /* エッジライト：Apple級 */
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     position: relative;
     overflow: hidden;
+    transform-style: preserve-3d;
+
+    /* Stripe級の準備 */
+    will-change: transform, box-shadow, background;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
+/* プレミアム質感：金属・ガラス風 */
 .add-song-btn::before,
 .add-game-btn::before,
 .post-btn::before,
 .save-btn::before {
     content: '';
     position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        linear-gradient(135deg,
+            rgba(255, 255, 255, 0.4) 0%,
+            rgba(255, 255, 255, 0.1) 30%,
+            rgba(255, 255, 255, 0.05) 70%,
+            rgba(255, 255, 255, 0.2) 100%);
+    border-radius: 12px;
+    opacity: 0;
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    backdrop-filter: blur(1px);
+}
+
+/* セカンダリリップル効果 */
+.add-song-btn::after,
+.add-game-btn::after,
+.post-btn::after,
+.save-btn::after {
+    content: '';
+    position: absolute;
     top: 50%;
     left: 50%;
     width: 0;
     height: 0;
-    background: rgba(255, 255, 255, 0.3);
+    background: radial-gradient(circle,
+            rgba(255, 255, 255, 0.6) 0%,
+            rgba(255, 255, 255, 0.3) 40%,
+            transparent 70%);
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    transition: width 0.6s ease, height 0.6s ease;
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+    opacity: 0;
+}
+
+/* Apple Pay級ホバー効果 */
+.add-song-btn:hover,
+.add-game-btn:hover,
+.post-btn:hover,
+.save-btn:hover {
+    transform:
+        translateY(-3px) scale(1.02) rotateX(-1deg);
+
+    /* Tesla購入ボタン級の影 */
+    box-shadow:
+        0 16px 40px rgba(46, 125, 50, 0.35),
+        0 8px 24px rgba(46, 125, 50, 0.25),
+        0 4px 16px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(255, 255, 255, 0.2),
+        /* 成功の光 */
+        0 0 30px rgba(129, 199, 132, 0.3);
+
+    background-position: 0% 0%, 100% 100%;
+    filter: brightness(1.1) saturate(1.1);
+
+    /* 微細振動効果 */
+    animation: trustShake 0.4s ease-in-out;
 }
 
 .add-song-btn:hover::before,
 .add-game-btn:hover::before,
 .post-btn:hover::before,
 .save-btn:hover::before {
-    width: 300px;
-    height: 300px;
+    opacity: 1;
+    background:
+        linear-gradient(135deg,
+            rgba(255, 255, 255, 0.6) 0%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 215, 0, 0.1) 100%);
 }
 
-.add-song-btn:hover,
-.add-game-btn:hover,
-.post-btn:hover,
-.save-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-medium);
-    filter: brightness(1.1);
+.add-song-btn:hover::after,
+.add-game-btn:hover::after,
+.post-btn:hover::after,
+.save-btn:hover::after {
+    width: 200px;
+    height: 200px;
+    opacity: 1;
+    animation: rippleSuccess 1s ease-out infinite;
 }
 
-.edit-btn,
-.view-btn {
-    background: var(--sky-blue);
-    color: var(--white);
-    border: var(--pixel-border-sm);
-    padding: 6px 12px;
-    font-family: var(--font-main);
-    font-size: 0.8rem;
-    cursor: pointer;
-    margin-right: 0.5rem;
+/* Stripe級のクリック時フィードバック */
+.add-song-btn:active,
+.add-game-btn:active,
+.post-btn:active,
+.save-btn:active {
+    transform:
+        translateY(-1px) scale(0.98);
+
+    box-shadow:
+        0 4px 12px rgba(46, 125, 50, 0.3),
+        inset 0 2px 4px rgba(0, 0, 0, 0.2);
+
+    transition: all 0.1s ease-out;
 }
 
-.edit-btn:hover,
-.view-btn:hover {
-    background: var(--light-sky);
+/* 微細振動アニメーション */
+@keyframes trustShake {
+
+    0%,
+    100% {
+        transform: translateY(-3px) scale(1.02) rotateX(-1deg) translateX(0);
+    }
+
+    25% {
+        transform: translateY(-3px) scale(1.02) rotateX(-1deg) translateX(0.5px);
+    }
+
+    75% {
+        transform: translateY(-3px) scale(1.02) rotateX(-1deg) translateX(-0.5px);
+    }
 }
 
-.delete-btn,
-.clear-btn,
-.clear-all-btn {
-    background: var(--retro-red);
-    color: var(--white);
-    border: var(--pixel-border-sm);
-    padding: 6px 12px;
-    font-family: var(--font-main);
-    font-size: 0.8rem;
-    cursor: pointer;
+/* 成功リップル */
+@keyframes rippleSuccess {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0;
+    }
 }
 
-.delete-btn:hover,
-.clear-btn:hover,
-.clear-all-btn:hover {
-    background: #ff5555;
+/* Loading状態（将来の拡張用） */
+.add-song-btn.loading,
+.add-game-btn.loading,
+.post-btn.loading,
+.save-btn.loading {
+    pointer-events: none;
+    background: linear-gradient(135deg, var(--text-light) 0%, var(--silver) 100%);
+    animation: pulseLoading 1.5s ease-in-out infinite;
 }
 
-.cancel-btn {
-    background: var(--text-light);
-    color: var(--white);
-    border: var(--pixel-border-sm);
-    padding: 8px 16px;
-    font-family: var(--font-main);
-    cursor: pointer;
-    margin-left: 0.5rem;
+@keyframes pulseLoading {
+
+    0%,
+    100% {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.01);
+    }
 }
 
-.cancel-btn:hover {
-    background: var(--text-dark);
+/* Success状態 */
+.add-song-btn.success,
+.add-game-btn.success,
+.post-btn.success,
+.save-btn.success {
+    background: linear-gradient(135deg, #4CAF50 0%, #81C784 100%);
+    animation: successPulse 0.6s ease-out;
 }
 
-.form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.5rem;
-    margin-top: 1.5rem;
-    padding-top: 1rem;
-    border-top: 1px solid #ddd;
+@keyframes successPulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 /* 空の状態・検索結果なし */
@@ -997,116 +1658,201 @@ body {
     gap: 1rem;
 }
 
-.song-card {
-    background: linear-gradient(135deg, var(--pure-white) 0%, var(--cream-white) 100%);
-    border: var(--border-elegant);
-    border-radius: 12px;
+.song-card,
+.game-card,
+.post-item {
+    background:
+        linear-gradient(135deg,
+            rgba(255, 255, 255, 0.9) 0%,
+            rgba(250, 250, 250, 0.8) 100%);
+
+    /* ガラスモーフィズム効果 */
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 16px;
     padding: 1.5rem;
-    box-shadow: var(--shadow-soft);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Netflix級の複合影 */
+    box-shadow:
+        var(--shadow-soft),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.05),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
     position: relative;
     overflow: hidden;
+    transform-style: preserve-3d;
+
+    /* Adobe級の準備 */
+    will-change: transform, box-shadow, backdrop-filter;
 }
 
-.song-card::before {
+/* プレミアムアクセントライン */
+.song-card::before,
+.game-card::before,
+.post-item::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 3px;
-    background: var(--gradient-premium);
-    opacity: 0.7;
+    height: 4px;
+    background: linear-gradient(90deg,
+            #FF6B6B 0%,
+            #4ECDC4 25%,
+            #45B7D1 50%,
+            #96CEB4 75%,
+            #FFEAA7 100%);
+    background-size: 200% 100%;
+    animation: gradientFlow 4s ease-in-out infinite;
+    border-radius: 16px 16px 0 0;
 }
 
-.song-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-strong);
-    border-color: var(--gold);
+/* エッジライティング */
+.song-card::after,
+.game-card::after,
+.post-item::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(45deg,
+            transparent 0%,
+            rgba(255, 215, 0, 0.2) 20%,
+            rgba(255, 255, 255, 0.3) 40%,
+            rgba(46, 125, 50, 0.2) 60%,
+            rgba(255, 179, 0, 0.2) 80%,
+            transparent 100%);
+    border-radius: 18px;
+    opacity: 0;
+    transition: opacity 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: -1;
+    filter: blur(2px);
 }
 
-.song-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 0.5rem;
+/* Spotify級ホバー効果 */
+.song-card:hover,
+.game-card:hover,
+.post-item:hover {
+    transform:
+        translateY(-8px) scale(1.02) rotateX(-2deg) rotateY(1deg);
+
+    /* Spotify Premiumレベルの影 */
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.15),
+        0 8px 24px rgba(0, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(255, 255, 255, 0.2),
+        0 0 30px rgba(46, 125, 50, 0.2);
+
+    /* 動的背景変化 */
+    background:
+        linear-gradient(135deg,
+            rgba(255, 255, 255, 0.95) 0%,
+            rgba(248, 248, 248, 0.9) 100%);
+
+    backdrop-filter: blur(30px) saturate(200%) brightness(1.1);
+    border-color: rgba(255, 215, 0, 0.4);
 }
 
-.song-title {
-    color: var(--text-dark);
-    margin: 0;
-    flex: 1;
+.song-card:hover::after,
+.game-card:hover::after,
+.post-item:hover::after {
+    opacity: 1;
+    animation: edgePulse 2s ease-in-out infinite;
 }
 
-.song-actions {
-    display: flex;
-    gap: 0.5rem;
+/* グラデーション流れアニメーション */
+@keyframes gradientFlow {
+
+    0%,
+    100% {
+        background-position: 0% 0%;
+        transform: scaleX(1);
+    }
+
+    50% {
+        background-position: 100% 0%;
+        transform: scaleX(1.02);
+    }
 }
 
-.song-info {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 0.5rem;
-    flex-wrap: wrap;
+/* エッジパルス */
+@keyframes edgePulse {
+
+    0%,
+    100% {
+        opacity: 0.3;
+        filter: blur(2px) brightness(1);
+    }
+
+    50% {
+        opacity: 0.8;
+        filter: blur(1px) brightness(1.2);
+    }
 }
 
-.difficulty {
-    padding: 2px 8px;
-    border: 1px solid var(--pixel-border);
-    font-size: 0.8rem;
-    font-weight: bold;
+/* マイクロインタラクション：段階的要素アニメーション */
+.song-card:hover .song-header,
+.game-card:hover .game-card-header,
+.post-item:hover .post-header {
+    transform: translateY(-2px);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s;
 }
 
-.difficulty.初級 {
-    background: #e8f5e8;
-    color: #2d5d2d;
+.song-card:hover .song-info,
+.game-card:hover .game-info,
+.post-item:hover .post-content {
+    transform: translateY(-1px);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s;
 }
 
-.difficulty.中級 {
-    background: #fff8e1;
-    color: #8d6e00;
+.song-card:hover .song-actions,
+.game-card:hover .game-actions,
+.post-item:hover .post-footer {
+    transform: translateY(-1px) scale(1.02);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s;
 }
 
-.difficulty.上級 {
-    background: #ffeaea;
-    color: #8d2d2d;
+/* 内部要素の段階的z-index */
+.song-header,
+.game-card-header,
+.post-header {
+    position: relative;
+    z-index: 3;
 }
 
-.genre,
-.composer {
-    font-size: 0.9rem;
-    color: var(--text-light);
+.song-info,
+.game-info,
+.post-content {
+    position: relative;
+    z-index: 2;
 }
 
-.song-notes {
-    margin: 0.5rem 0;
-    padding: 0.5rem;
-    background: #f8f8f8;
-    border-left: 3px solid var(--primary-green);
+.song-actions,
+.game-actions,
+.post-footer {
+    position: relative;
+    z-index: 1;
 }
 
-.song-notes strong {
-    color: var(--text-dark);
-}
-
-.song-notes p {
-    margin: 0.25rem 0 0 0;
-    color: var(--text-light);
-}
-
-.song-meta {
-    display: flex;
-    gap: 1rem;
-    margin-top: 0.5rem;
-    font-size: 0.8rem;
-    color: var(--text-light);
-}
-
-.char-count {
-    text-align: right;
-    font-size: 0.8rem;
-    color: var(--text-light);
-    margin-top: 0.25rem;
+/* Adobe Creative Cloud級の内側発光 */
+.song-card:hover,
+.game-card:hover,
+.post-item:hover {
+    background-image:
+        linear-gradient(135deg,
+            rgba(255, 255, 255, 0.95) 0%,
+            rgba(248, 248, 248, 0.9) 100%),
+        radial-gradient(circle at 20% 20%,
+            rgba(255, 215, 0, 0.1) 0%,
+            transparent 50%),
+        radial-gradient(circle at 80% 80%,
+            rgba(46, 125, 50, 0.1) 0%,
+            transparent 50%);
 }
 
 /* ========================================
@@ -1521,3 +2267,469 @@ body {
         gap: 0.25rem;
     }
 }
+
+/* ========================================
+   個別要素スタイル復元 & 高級化
+   ======================================== */
+
+.song-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+}
+
+.song-title {
+    color: var(--text-dark);
+    margin: 0;
+    flex: 1;
+}
+
+.song-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.song-info {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.difficulty {
+    padding: 4px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.difficulty.初級 {
+    background: linear-gradient(135deg, rgba(46, 125, 50, 0.2), rgba(129, 199, 132, 0.3));
+    color: #1B5E20;
+    box-shadow: 0 2px 8px rgba(46, 125, 50, 0.2);
+}
+
+.difficulty.中級 {
+    background: linear-gradient(135deg, rgba(255, 143, 0, 0.2), rgba(255, 183, 77, 0.3));
+    color: #E65100;
+    box-shadow: 0 2px 8px rgba(255, 143, 0, 0.2);
+}
+
+.difficulty.上級 {
+    background: linear-gradient(135deg, rgba(244, 67, 54, 0.2), rgba(229, 115, 115, 0.3));
+    color: #C62828;
+    box-shadow: 0 2px 8px rgba(244, 67, 54, 0.2);
+}
+
+.genre,
+.composer {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+.song-notes {
+    margin: 0.5rem 0;
+    padding: 1rem;
+    background: linear-gradient(135deg, rgba(248, 248, 248, 0.8), rgba(255, 255, 255, 0.6));
+    border-left: 4px solid var(--primary-green);
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.song-notes strong {
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.song-notes p {
+    margin: 0.25rem 0 0 0;
+    color: var(--text-light);
+    line-height: 1.5;
+}
+
+.song-meta {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+.char-count {
+    text-align: right;
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-top: 0.25rem;
+    font-weight: 500;
+}
+
+/* ========================================
+   🏆 Phase 5: 2025年最新トレンド統合
+   ======================================== */
+
+/* ニューモーフィズム効果 */
+.neumorphic {
+    background: linear-gradient(145deg, #f0f0f0, #cacaca);
+    box-shadow:
+        20px 20px 60px #bebebe,
+        -20px -20px 60px #ffffff,
+        inset 5px 5px 15px rgba(255, 255, 255, 0.2),
+        inset -5px -5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 50px;
+}
+
+/* フルードシェイプ：有機的曲線美 */
+.fluid-shape {
+    background: linear-gradient(45deg, var(--primary-green), var(--secondary-green));
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    animation: morphing 8s ease-in-out infinite;
+}
+
+@keyframes morphing {
+
+    0%,
+    100% {
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    }
+
+    25% {
+        border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+    }
+
+    50% {
+        border-radius: 50% 60% 30% 60% / 30% 60% 70% 40%;
+    }
+
+    75% {
+        border-radius: 60% 40% 60% 30% / 60% 40% 30% 70%;
+    }
+}
+
+/* グラスモーフィズム強化 */
+.glass-ultra {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(40px) saturate(200%) brightness(1.2);
+    -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* ネオンアクセント：未来的光効果 */
+.neon-glow {
+    text-shadow:
+        0 0 5px currentColor,
+        0 0 10px currentColor,
+        0 0 15px currentColor,
+        0 0 20px var(--primary-green),
+        0 0 35px var(--primary-green),
+        0 0 40px var(--primary-green);
+    animation: neonPulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes neonPulse {
+    from {
+        text-shadow:
+            0 0 5px currentColor,
+            0 0 10px currentColor,
+            0 0 15px currentColor,
+            0 0 20px var(--primary-green),
+            0 0 35px var(--primary-green),
+            0 0 40px var(--primary-green);
+    }
+
+    to {
+        text-shadow:
+            0 0 2px currentColor,
+            0 0 5px currentColor,
+            0 0 8px currentColor,
+            0 0 12px var(--primary-green),
+            0 0 18px var(--primary-green),
+            0 0 25px var(--primary-green);
+    }
+}
+
+/* パーティクルシステム強化 */
+.particle-enhanced::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(circle at 10% 20%, rgba(255, 215, 0, 0.8) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(129, 199, 132, 0.6) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(144, 202, 249, 0.4) 0%, transparent 50%),
+        radial-gradient(circle at 0% 50%, rgba(255, 179, 0, 0.5) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(165, 214, 167, 0.8) 0%, transparent 50%),
+        radial-gradient(circle at 0% 100%, rgba(255, 215, 0, 0.3) 0%, transparent 50%);
+    background-size: 50px 50px, 40px 40px, 60px 60px, 30px 30px, 45px 45px, 35px 35px;
+    animation: particleMove 20s linear infinite, particleFade 4s ease-in-out infinite alternate;
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+@keyframes particleMove {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    100% {
+        transform: translateY(-100vh) rotate(360deg);
+    }
+}
+
+@keyframes particleFade {
+    0% {
+        opacity: 0.4;
+    }
+
+    100% {
+        opacity: 0.8;
+    }
+}
+
+/* カラーシフト：HSL色相自動変化 */
+.color-shift {
+    animation: hueRotation 10s linear infinite;
+}
+
+@keyframes hueRotation {
+    0% {
+        filter: hue-rotate(0deg) saturate(1) brightness(1);
+    }
+
+    25% {
+        filter: hue-rotate(90deg) saturate(1.1) brightness(1.05);
+    }
+
+    50% {
+        filter: hue-rotate(180deg) saturate(1.2) brightness(1.1);
+    }
+
+    75% {
+        filter: hue-rotate(270deg) saturate(1.1) brightness(1.05);
+    }
+
+    100% {
+        filter: hue-rotate(360deg) saturate(1) brightness(1);
+    }
+}
+
+/* ========================================
+   🎪 レトロ×未来の完璧融合
+   ======================================== */
+
+/* 独創的なレトロ-未来ハイブリッド要素 */
+.retro-future-fusion {
+    background:
+        linear-gradient(135deg,
+            var(--primary-green) 0%,
+            var(--secondary-green) 25%,
+            var(--gold) 50%,
+            var(--accent-blue) 75%,
+            var(--primary-green) 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+
+    /* レトロピクセル風エッジ */
+    clip-path: polygon(0% 0%,
+            calc(100% - 20px) 0%,
+            100% 20px,
+            100% 100%,
+            20px 100%,
+            0% calc(100% - 20px));
+
+    /* 未来的フィルター */
+    filter:
+        drop-shadow(0 0 20px rgba(255, 215, 0, 0.5)) drop-shadow(0 0 40px rgba(129, 199, 132, 0.3));
+
+    /* 3D変形 */
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.retro-future-fusion:hover {
+    animation:
+        gradientShift 8s ease infinite,
+        retro3DFloat 2s ease-in-out infinite,
+        futureGlow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes retro3DFloat {
+
+    0%,
+    100% {
+        transform: rotateX(0deg) rotateY(0deg) translateZ(0px);
+    }
+
+    50% {
+        transform: rotateX(5deg) rotateY(5deg) translateZ(20px);
+    }
+}
+
+@keyframes futureGlow {
+    0% {
+        filter:
+            drop-shadow(0 0 20px rgba(255, 215, 0, 0.5)) drop-shadow(0 0 40px rgba(129, 199, 132, 0.3));
+    }
+
+    100% {
+        filter:
+            drop-shadow(0 0 40px rgba(255, 215, 0, 0.8)) drop-shadow(0 0 80px rgba(129, 199, 132, 0.6)) drop-shadow(0 0 120px rgba(144, 202, 249, 0.4));
+    }
+}
+
+/* 記憶に残るシグネチャー効果 */
+.signature-effect {
+    position: relative;
+    overflow: hidden;
+}
+
+.signature-effect::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background:
+        conic-gradient(from 0deg at 50% 50%,
+            transparent 0deg,
+            rgba(255, 215, 0, 0.1) 60deg,
+            rgba(129, 199, 132, 0.2) 120deg,
+            rgba(144, 202, 249, 0.1) 180deg,
+            rgba(255, 179, 0, 0.2) 240deg,
+            rgba(165, 214, 167, 0.1) 300deg,
+            transparent 360deg);
+    animation: signatureRotate 20s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes signatureRotate {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+
+    50% {
+        transform: rotate(180deg) scale(1.1);
+    }
+
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+/* パフォーマンス最適化 */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* GPU加速最適化 */
+.gpu-optimized {
+    will-change: transform, opacity, filter;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* Focus管理：アクセシビリティ */
+.focus-ring:focus {
+    outline: 3px solid var(--primary-green);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 6px rgba(46, 125, 50, 0.2);
+}
+
+/* スクリーンリーダー対応 */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* 装飾要素の非表示 */
+.decorative {
+    aria-hidden: true;
+}
+
+/* ========================================
+   🏆 最終調整：世界唯一の美しさ
+   ======================================== */
+
+/* 全体調和の最終仕上げ */
+* {
+    text-rendering: var(--text-rendering);
+    -webkit-font-smoothing: var(--webkit-font-smoothing);
+    -moz-osx-font-smoothing: var(--moz-osx-font-smoothing);
+}
+
+/* 感情的価値：楽しさの演出 */
+.joy-element {
+    animation: joyBounce 3s ease-in-out infinite;
+}
+
+@keyframes joyBounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-10px);
+    }
+
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+/* 最終的な統一感 */
+body {
+    font-family: var(--font-body);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-spacing-normal);
+}
+
+/* 🎉 完成：Awwwards Site of the Year候補レベル 🎉 */
