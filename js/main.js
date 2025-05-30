@@ -1,3 +1,116 @@
+// ========================================
+// 🍔 ハンバーガーメニュー機能
+// ========================================
+
+class MobileMenu {
+    constructor() {
+        this.menuToggle = document.querySelector('.mobile-menu-toggle');
+        this.nav = document.querySelector('.main-nav');
+        this.overlay = document.querySelector('.mobile-overlay');
+        this.body = document.body;
+        this.isOpen = false;
+
+        this.init();
+    }
+
+    init() {
+        if (!this.menuToggle) return;
+
+        // イベントリスナー設定
+        this.menuToggle.addEventListener('click', () => this.toggle());
+        this.overlay.addEventListener('click', () => this.close());
+
+        // ESCキーでメニューを閉じる
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.isOpen) {
+                this.close();
+            }
+        });
+
+        // ナビリンククリックでメニューを閉じる
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    this.close();
+                }
+            });
+        });
+
+        // リサイズ時の処理
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768 && this.isOpen) {
+                this.close();
+            }
+        });
+    }
+
+    toggle() {
+        if (this.isOpen) {
+            this.close();
+        } else {
+            this.open();
+        }
+    }
+
+    open() {
+        this.isOpen = true;
+        this.menuToggle.classList.add('active');
+        this.nav.classList.add('active');
+        this.overlay.classList.add('active');
+        this.body.classList.add('menu-open');
+
+        // アクセシビリティ
+        this.menuToggle.setAttribute('aria-expanded', 'true');
+        this.menuToggle.setAttribute('aria-label', 'メニューを閉じる');
+
+        // フォーカス管理
+        this.trapFocus();
+    }
+
+    close() {
+        this.isOpen = false;
+        this.menuToggle.classList.remove('active');
+        this.nav.classList.remove('active');
+        this.overlay.classList.remove('active');
+        this.body.classList.remove('menu-open');
+
+        // アクセシビリティ
+        this.menuToggle.setAttribute('aria-expanded', 'false');
+        this.menuToggle.setAttribute('aria-label', 'メニューを開く');
+    }
+
+    trapFocus() {
+        const focusableElements = this.nav.querySelectorAll(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+
+        if (focusableElements.length === 0) return;
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        // 最初の要素にフォーカス
+        firstElement.focus();
+
+        this.nav.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                if (e.shiftKey) {
+                    if (document.activeElement === firstElement) {
+                        e.preventDefault();
+                        lastElement.focus();
+                    }
+                } else {
+                    if (document.activeElement === lastElement) {
+                        e.preventDefault();
+                        firstElement.focus();
+                    }
+                }
+            }
+        });
+    }
+}
+
 // ローディング処理
 window.addEventListener('load', () => {
     const loading = document.getElementById('loading');
@@ -289,9 +402,88 @@ buildings.forEach(building => {
     animationObserver.observe(building);
 });
 
+// ========================================
+// 🚀 初期化とスムーズスクロール
+// ========================================
+
+// DOM読み込み完了後に初期化
+document.addEventListener('DOMContentLoaded', () => {
+    // モバイルメニュー初期化
+    new MobileMenu();
+
+    // スムーズスクロール（アンカーリンク用）
+    const anchorLinks = document.querySelectorAll('a[href^="#"]');
+    anchorLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            const targetId = link.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+
+            if (targetElement) {
+                e.preventDefault();
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // タッチ最適化
+    if ('ontouchstart' in window) {
+        document.body.classList.add('touch-device');
+    }
+});
+
+// ========================================
+// 📱 タッチ最適化
+// ========================================
+
+// タッチフィードバック
+document.addEventListener('touchstart', (e) => {
+    if (e.target.matches('.nav-link, .building, button')) {
+        e.target.style.transform = 'scale(0.95)';
+    }
+});
+
+document.addEventListener('touchend', (e) => {
+    if (e.target.matches('.nav-link, .building, button')) {
+        setTimeout(() => {
+            e.target.style.transform = '';
+        }, 150);
+    }
+});
+
+// パフォーマンス最適化
+const throttle = (func, limit) => {
+    let inThrottle;
+    return function () {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    }
+};
+
+// スクロールイベント最適化
+let ticking2 = false;
+const handleScroll2 = () => {
+    if (!ticking2) {
+        requestAnimationFrame(() => {
+            // スクロール関連の処理をここに追加
+            ticking2 = false;
+        });
+        ticking2 = true;
+    }
+};
+
+window.addEventListener('scroll', handleScroll2);
+
 // ページ離脱時の処理
 window.addEventListener('beforeunload', () => {
     // 必要に応じてクリーンアップ処理を追加
 });
 
-console.log('もけもけの村へようこそ！🌱 (モバイル対応版)');
+console.log('もけもけの村へようこそ！🌱 (ハンバーガーメニュー対応版)');

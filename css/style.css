@@ -548,6 +548,90 @@ body::after {
     z-index: 100;
 }
 
+/* ========================================
+   🍔 ハンバーガーメニュー実装
+   ======================================== */
+
+/* ヘッダーコンテナ */
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+/* ハンバーガーメニューボタン */
+.mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 44px;
+    height: 44px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 1001;
+    position: relative;
+}
+
+.hamburger-line {
+    width: 25px;
+    height: 3px;
+    background: var(--primary-green);
+    border-radius: 2px;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    transform-origin: center;
+}
+
+/* アニメーション：メニュー開閉 */
+.mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* モバイルオーバーレイ */
+.mobile-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 999;
+}
+
+.mobile-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ナビリスト基本スタイル */
+.nav-list {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+}
+
 .site-title {
     text-align: center;
     font-size: 2.5rem;
@@ -2743,74 +2827,135 @@ body {
 
     /* ヘッダー・ナビゲーション */
     .site-header {
-        padding: 10px 15px;
+        padding: 15px 0;
     }
 
     .site-title {
-        font-size: var(--font-size-xl);
+        font-size: 1.8rem;
+        margin-bottom: 0;
     }
 
-    .main-nav ul {
+    /* ハンバーガーメニューボタン表示 */
+    .mobile-menu-toggle {
+        display: flex;
+    }
+
+    /* ナビゲーション：スライドアウト */
+    .main-nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 280px;
+        height: 100vh;
+        background: linear-gradient(135deg,
+                var(--pure-white) 0%,
+                var(--light-green) 100%);
+        box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+        transition: right 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        z-index: 1000;
+        padding-top: 80px;
+        overflow-y: auto;
+    }
+
+    .main-nav.active {
+        right: 0;
+    }
+
+    /* ナビリスト：縦配置 */
+    .nav-list {
         flex-direction: column;
-        gap: 8px;
+        gap: 0;
+        padding: 20px;
+        margin: 0;
     }
 
+    /* ナビリンク：モバイル最適化 */
     .nav-link {
-        padding: 12px 16px;
-        font-size: var(--font-size-sm);
-    }
-
-    /* 村コンテナ */
-    .village-container {
-        flex-direction: column;
-        gap: 20px;
-        padding: 15px;
-    }
-
-    /* 建物 */
-    .building {
-        max-width: 100%;
-        min-height: 140px;
-        padding: 20px;
-    }
-
-    .building-body h3 {
-        font-size: var(--font-size-lg);
-    }
-
-    .building-body p {
-        font-size: var(--font-size-sm);
-    }
-
-    /* モーダル */
-    .modal-content {
-        width: 95vw;
-        max-width: 600px;
-        margin: 10px auto;
-        padding: 20px;
-    }
-
-    /* フォーム */
-    .form-group {
-        margin-bottom: 16px;
-    }
-
-    .form-input,
-    .form-select,
-    .form-textarea {
-        padding: 12px;
-        font-size: 16px;
-        /* iOSズーム防止 */
-    }
-
-    /* ボタン */
-    .nav-button,
-    .add-song-btn,
-    .add-game-btn,
-    .post-btn {
+        width: 100%;
+        padding: 16px 20px;
+        margin-bottom: 8px;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        text-align: left;
+        display: flex;
+        align-items: center;
         min-height: 44px;
-        padding: 12px 16px;
-        font-size: var(--font-size-base);
+
+        /* タッチフレンドリー */
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* モバイル専用アニメーション */
+    .nav-link {
+        transform: translateX(20px);
+        opacity: 0;
+        animation: slideInNav 0.3s ease forwards;
+    }
+
+    .nav-link:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .nav-link:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .nav-link:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+
+    .nav-link:nth-child(4) {
+        animation-delay: 0.4s;
+    }
+}
+
+@keyframes slideInNav {
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* ========================================
+   🎨 追加UIエンハンス
+   ======================================== */
+
+/* ボディスクロール制御 */
+body.menu-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+}
+
+/* フォーカス管理 */
+.mobile-menu-toggle:focus,
+.nav-link:focus {
+    outline: 3px solid var(--primary-green);
+    outline-offset: 2px;
+}
+
+/* 高コントラスト対応 */
+@media (prefers-contrast: high) {
+    .hamburger-line {
+        background: var(--text-primary);
+        height: 4px;
+    }
+
+    .mobile-overlay {
+        background: rgba(0, 0, 0, 0.8);
+    }
+}
+
+/* モーション軽減 */
+@media (prefers-reduced-motion: reduce) {
+
+    .mobile-menu-toggle,
+    .main-nav,
+    .mobile-overlay,
+    .nav-link {
+        transition: none !important;
+        animation: none !important;
     }
 }
 
@@ -3321,4 +3466,14 @@ body {
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
+}
+
+/* デスクトップ版のナビゲーションレイアウト */
+@media (min-width: 769px) {
+    .nav-list {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
 }
