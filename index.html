@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="もけもけの村 - 音楽とゲームが楽しめる温かいオンラインの村">
     <title>もけもけの村へようこそ</title>
-    
+
     <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
-    
+
     <!-- レトロゲーム風フォント -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <!-- ローディング画面 -->
     <div id="loading" class="loading-container">
@@ -28,10 +30,10 @@
         <h1 class="site-title">もけもけの村</h1>
         <nav class="main-nav">
             <ul>
-                <li><a href="#home" class="nav-link active">村の広場</a></li>
-                <li><a href="#music" class="nav-link">音楽の家</a></li>
-                <li><a href="#game" class="nav-link">ゲームの家</a></li>
-                <li><a href="#board" class="nav-link">掲示板</a></li>
+                <li><a href="#home" class="nav-link active">🏠 村の広場</a></li>
+                <li><a href="piano.html" class="nav-link">🎹 音楽の家</a></li>
+                <li><a href="games.html" class="nav-link">🎲 ゲームの家</a></li>
+                <li><a href="board.html" class="nav-link">📋 掲示板</a></li>
             </ul>
         </nav>
     </header>
@@ -47,8 +49,8 @@
 
         <!-- 村の地図エリア -->
         <section id="village-map" class="village-map">
-            <h2 class="section-title">村の広場</h2>
-            
+            <h2 class="section-title">🌱 村の広場</h2>
+
             <div class="village-container">
                 <!-- 音楽の家 -->
                 <div class="building music-house" data-house="music">
@@ -56,7 +58,7 @@
                     <div class="building-roof"></div>
                     <div class="building-body">
                         <h3>音楽の家</h3>
-                        <p>ピアノ演奏曲リスト</p>
+                        <p>ピアノ演奏曲リスト<br>📝 管理・検索・追加</p>
                     </div>
                     <div class="building-door"></div>
                 </div>
@@ -67,7 +69,7 @@
                     <div class="building-roof"></div>
                     <div class="building-body">
                         <h3>ゲームの家</h3>
-                        <p>ボードゲームサマリー</p>
+                        <p>ボードゲームサマリー<br>🎯 攻略・レビュー集</p>
                     </div>
                     <div class="building-door"></div>
                 </div>
@@ -76,10 +78,11 @@
                 <div class="board-area">
                     <div class="bulletin-board">
                         <div class="board-frame">
-                            <h3>掲示板</h3>
+                            <h3>📋 掲示板</h3>
                             <div class="board-content">
                                 <p>🌟 村へようこそ！</p>
-                                <p>📝 最新情報はこちら</p>
+                                <p>💬 みんなと交流しよう</p>
+                                <p>📝 投稿・削除機能付き</p>
                             </div>
                         </div>
                         <div class="board-legs"></div>
@@ -108,4 +111,5 @@
     <!-- JavaScript -->
     <script src="js/main.js"></script>
 </body>
+
 </html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="もけもけの村 - 音楽の家でピアノ曲を管理しよう">
+  <title>音楽の家 | もけもけの村</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- レトロゲーム風フォント -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- ヘッダー -->
+  <header class="site-header">
+    <h1 class="site-title">🎹 音楽の家</h1>
+    <nav class="main-nav">
+      <ul>
+        <li><button class="back-btn">← 村の広場に戻る</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <main class="main-content">
+    <div class="content">
+      <!-- 検索・フィルターパネル -->
+      <div class="search-panel">
+        <div class="search-controls">
+          <input type="text" id="searchInput" class="search-input" placeholder="🔍 曲名で検索...">
+
+          <select id="difficultyFilter" class="filter-select">
+            <option value="all">すべて</option>
+            <option value="初級">🟢 初級</option>
+            <option value="中級">🟡 中級</option>
+            <option value="上級">🔴 上級</option>
+          </select>
+
+          <button id="addSongBtn" class="add-song-btn">♪ 新しい曲を追加</button>
+        </div>
+
+        <div class="stats">
+          <span class="song-count">総曲数: <span id="songCount">0</span>曲</span>
+        </div>
+      </div>
+
+      <!-- 曲リスト -->
+      <div id="songList" class="song-list">
+        <!-- 動的に生成されます -->
+      </div>
+
+      <!-- 空の状態 -->
+      <div id="emptyState" class="empty-state">
+        <div class="empty-icon">🎵</div>
+        <h3>まだ曲が登録されていません</h3>
+        <p>「♪ 新しい曲を追加」ボタンから最初の曲を登録してみませんか？</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- 曲追加・編集モーダル -->
+  <div id="songModal" class="modal hidden">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">♪ 新しい曲を追加</h2>
+        <button id="closeModal" class="close-btn">✕</button>
+      </div>
+
+      <form id="songForm" class="song-form">
+        <div class="form-group">
+          <label for="songTitle">曲名 *</label>
+          <input type="text" id="songTitle" class="form-input" placeholder="曲名を入力" required>
+        </div>
+
+        <div class="form-group">
+          <label for="songDifficulty">難易度 *</label>
+          <select id="songDifficulty" class="form-select" required>
+            <option value="">選択してください</option>
+            <option value="初級">🟢 初級</option>
+            <option value="中級">🟡 中級</option>
+            <option value="上級">🔴 上級</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="songGenre">ジャンル</label>
+          <input type="text" id="songGenre" class="form-input" placeholder="例: クラシック、ポップス、アニメ">
+        </div>
+
+        <div class="form-group">
+          <label for="songComposer">作曲者</label>
+          <input type="text" id="songComposer" class="form-input" placeholder="作曲者名">
+        </div>
+
+        <div class="form-group">
+          <label for="songNotes">メモ・コメント</label>
+          <textarea id="songNotes" class="form-textarea" placeholder="演奏のコツや感想など..."></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="save-btn">💾 保存</button>
+          <button type="button" id="cancelBtn" class="cancel-btn">キャンセル</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="js/piano.js"></script>
+</body>
+
+</html>

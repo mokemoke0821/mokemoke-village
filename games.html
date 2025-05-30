@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="もけもけの村 - ゲームの家でボードゲームサマリーを管理しよう">
+  <title>ゲームの家 | もけもけの村</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- レトロゲーム風フォント -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- ヘッダー -->
+  <header class="site-header">
+    <h1 class="site-title">🎲 ゲームの家</h1>
+    <nav class="main-nav">
+      <ul>
+        <li><button class="back-btn">← 村の広場に戻る</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <main class="main-content">
+    <div class="content">
+      <!-- カテゴリフィルター -->
+      <div class="filter-panel">
+        <div class="category-filters">
+          <button class="category-btn active" data-category="all">🎯 すべて</button>
+          <button class="category-btn" data-category="strategy">🧠 戦略</button>
+          <button class="category-btn" data-category="coop">🤝 協力</button>
+          <button class="category-btn" data-category="party">🎉 パーティ</button>
+          <button class="category-btn" data-category="family">👨‍👩‍👧‍👦 ファミリー</button>
+          <button class="category-btn" data-category="card">🃏 カード</button>
+        </div>
+
+        <div class="filter-actions">
+          <button id="addGameBtn" class="add-game-btn">🎲 新しいゲーム追加</button>
+        </div>
+
+        <div class="stats">
+          <span class="game-count">総ゲーム数: <span id="gameCount">0</span>個</span>
+        </div>
+      </div>
+
+      <!-- ゲームグリッド -->
+      <div id="gamesGrid" class="games-grid">
+        <!-- 動的に生成されます -->
+      </div>
+
+      <!-- 空の状態 -->
+      <div id="emptyState" class="empty-state">
+        <div class="empty-icon">🎲</div>
+        <h3>まだゲームが登録されていません</h3>
+        <p>「🎲 新しいゲーム追加」ボタンから最初のゲームを登録してみませんか？</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- ゲーム追加・編集モーダル -->
+  <div id="gameModal" class="modal hidden">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-content large">
+      <div class="modal-header">
+        <h2 id="modalTitle">🎲 新しいゲームを追加</h2>
+        <button id="closeModal" class="close-btn">✕</button>
+      </div>
+
+      <form id="gameForm" class="game-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="gameName">ゲーム名 *</label>
+            <input type="text" id="gameName" class="form-input" placeholder="ゲーム名を入力" required>
+          </div>
+
+          <div class="form-group">
+            <label for="gameCategory">カテゴリ *</label>
+            <select id="gameCategory" class="form-select" required>
+              <option value="">選択してください</option>
+              <option value="strategy">🧠 戦略</option>
+              <option value="coop">🤝 協力</option>
+              <option value="party">🎉 パーティ</option>
+              <option value="family">👨‍👩‍👧‍👦 ファミリー</option>
+              <option value="card">🃏 カード</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="gameMinPlayers">最小人数</label>
+            <input type="number" id="gameMinPlayers" class="form-input" placeholder="1" min="1" max="20">
+          </div>
+
+          <div class="form-group">
+            <label for="gameMaxPlayers">最大人数</label>
+            <input type="number" id="gameMaxPlayers" class="form-input" placeholder="4" min="1" max="20">
+          </div>
+
+          <div class="form-group">
+            <label for="gameTime">プレイ時間（分）</label>
+            <input type="number" id="gameTime" class="form-input" placeholder="60" min="1">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="gameDescription">ゲーム説明 *</label>
+          <textarea id="gameDescription" class="form-textarea" placeholder="ゲームのルールや面白さを説明..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="gameSummary">サマリー・攻略のコツ</label>
+          <textarea id="gameSummary" class="form-textarea large" placeholder="プレイのコツ、戦略、注意点など詳細なサマリーを記載..."></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="save-btn">💾 保存</button>
+          <button type="button" id="cancelBtn" class="cancel-btn">キャンセル</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ゲーム詳細表示モーダル -->
+  <div id="viewModal" class="modal hidden">
+    <div class="modal-backdrop" id="viewModalBackdrop"></div>
+    <div class="modal-content large">
+      <div class="modal-header">
+        <h2 id="viewModalTitle">ゲーム詳細</h2>
+        <button id="closeViewModal" class="close-btn">✕</button>
+      </div>
+
+      <div id="viewModalContent" class="view-content">
+        <!-- 動的に生成されます -->
+      </div>
+
+      <div class="view-actions">
+        <button id="editFromView" class="edit-btn">✏️ 編集</button>
+        <button id="closeViewModalBtn" class="close-btn">閉じる</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="js/games.js"></script>
+</body>
+
+</html>

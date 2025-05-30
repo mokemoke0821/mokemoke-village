@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="もけもけの村 - 村の掲示板でみんなと交流しよう">
+  <title>村の掲示板 | もけもけの村</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- レトロゲーム風フォント -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- ヘッダー -->
+  <header class="site-header">
+    <h1 class="site-title">📋 村の掲示板</h1>
+    <nav class="main-nav">
+      <ul>
+        <li><button class="back-btn">← 村の広場に戻る</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <main class="main-content">
+    <div class="content">
+      <!-- 投稿フォーム -->
+      <div class="post-form-panel">
+        <h2>✍️ 新しい投稿</h2>
+        <form id="postForm" class="post-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="authorName">投稿者名 *</label>
+              <input type="text" id="authorName" class="form-input" placeholder="あなたの名前" maxlength="20" required>
+            </div>
+
+            <div class="form-group">
+              <label for="postTitle">タイトル *</label>
+              <input type="text" id="postTitle" class="form-input" placeholder="投稿のタイトル" maxlength="50" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="postContent">メッセージ *</label>
+            <textarea id="postContent" class="form-textarea" placeholder="みんなに伝えたいことを書いてみてください..." maxlength="500"
+              rows="4" required></textarea>
+            <div class="char-count">
+              <span id="charCount">0</span> / 500 文字
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="post-btn">📝 投稿する</button>
+            <button type="button" id="clearForm" class="clear-btn">🗑️ クリア</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- 投稿一覧ヘッダー -->
+      <div class="posts-header">
+        <h2>💬 みんなの投稿</h2>
+        <div class="posts-info">
+          <span class="post-count">投稿数: <span id="postCount">0</span>件</span>
+          <button id="clearAllPosts" class="clear-all-btn">🗑️ 全削除</button>
+        </div>
+      </div>
+
+      <!-- 投稿一覧 -->
+      <div id="postsContainer" class="posts-container">
+        <!-- 動的に生成されます -->
+      </div>
+
+      <!-- 空の状態 -->
+      <div id="emptyState" class="empty-state">
+        <div class="empty-icon">📝</div>
+        <h3>まだ投稿がありません</h3>
+        <p>最初の投稿をしてみませんか？<br>みんなで楽しい村を作りましょう！</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- 削除確認モーダル -->
+  <div id="deleteModal" class="modal hidden">
+    <div class="modal-backdrop" id="deleteModalBackdrop"></div>
+    <div class="modal-content small">
+      <div class="modal-header">
+        <h3>🗑️ 投稿を削除</h3>
+      </div>
+
+      <div class="confirm-content">
+        <p>この投稿を削除しますか？</p>
+        <p class="warning">⚠️ 削除すると元に戻せません</p>
+      </div>
+
+      <div class="confirm-actions">
+        <button id="confirmDelete" class="delete-btn">削除する</button>
+        <button id="cancelDelete" class="cancel-btn">キャンセル</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="js/board.js"></script>
+</body>
+
+</html>

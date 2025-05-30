@@ -10,15 +10,29 @@ window.addEventListener('load', () => {
 const navLinks = document.querySelectorAll('.nav-link');
 navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
-        e.preventDefault();
-        
+        const href = link.getAttribute('href');
+
+        // 実際のページへのリンクの場合はそのまま遷移
+        if (href === '#home') {
+            e.preventDefault();
+            // ホーム（現在のページ）にいるのでスクロールだけ
+            document.querySelector('.village-map').scrollIntoView({
+                behavior: 'smooth'
+            });
+        } else if (href === '#music') {
+            e.preventDefault();
+            window.location.href = 'piano.html';
+        } else if (href === '#game') {
+            e.preventDefault();
+            window.location.href = 'games.html';
+        } else if (href === '#board') {
+            e.preventDefault();
+            window.location.href = 'board.html';
+        }
+
         // アクティブクラスの切り替え
         navLinks.forEach(l => l.classList.remove('active'));
         link.classList.add('active');
-        
-        // ページ内容の更新（将来の実装用）
-        const target = link.getAttribute('href').substring(1);
-        updateContent(target);
     });
 });
 
@@ -27,18 +41,17 @@ const buildings = document.querySelectorAll('.building');
 buildings.forEach(building => {
     building.addEventListener('click', () => {
         const house = building.dataset.house;
-        
+
         // アニメーション効果
         building.style.animation = 'bounce 0.5s ease';
+
         setTimeout(() => {
             building.style.animation = '';
+            // アニメーション後にページ遷移
+            navigateToHouse(house);
         }, 500);
-        
-        // 将来のページ遷移用
-        console.log(`${house}の家がクリックされました`);
-        showHouseContent(house);
     });
-    
+
     // ホバー時の効果音（オプション）
     building.addEventListener('mouseenter', () => {
         // 効果音を再生する処理をここに追加可能
@@ -47,15 +60,24 @@ buildings.forEach(building => {
 
 // 掲示板のクリック処理
 const bulletinBoard = document.querySelector('.bulletin-board');
-bulletinBoard.addEventListener('click', () => {
-    bulletinBoard.style.animation = 'shake 0.5s ease';
-    setTimeout(() => {
-        bulletinBoard.style.animation = '';
-    }, 500);
-    
-    console.log('掲示板がクリックされました');
-    showBoardContent();
-});
+if (bulletinBoard) {
+    bulletinBoard.addEventListener('click', () => {
+        bulletinBoard.style.animation = 'shake 0.5s ease';
+        setTimeout(() => {
+            bulletinBoard.style.animation = '';
+            window.location.href = 'board.html';
+        }, 500);
+    });
+}
+
+// 家への遷移処理
+function navigateToHouse(house) {
+    if (house === 'music') {
+        window.location.href = 'piano.html';
+    } else if (house === 'game') {
+        window.location.href = 'games.html';
+    }
+}
 
 // もけもけキャラクターのインタラクション
 const mokemokeResidents = document.querySelectorAll('.mokemoke-resident');
@@ -65,34 +87,11 @@ mokemokeResidents.forEach(mokemoke => {
         setTimeout(() => {
             mokemoke.style.animation = 'float 3s ease-in-out infinite';
         }, 500);
-        
+
         // ランダムなメッセージを表示
         showMokemokeMessage(mokemoke);
     });
 });
-
-// コンテンツ更新関数（将来の実装用）
-function updateContent(section) {
-    console.log(`${section}セクションに切り替え`);
-    // ここに各セクションのコンテンツを動的に読み込む処理を追加
-}
-
-// 家のコンテンツ表示関数（将来の実装用）
-function showHouseContent(house) {
-    if (house === 'music') {
-        console.log('音楽の家のコンテンツを表示');
-        // 音楽リストの表示処理
-    } else if (house === 'game') {
-        console.log('ゲームの家のコンテンツを表示');
-        // ゲームサマリーの表示処理
-    }
-}
-
-// 掲示板コンテンツ表示関数（将来の実装用）
-function showBoardContent() {
-    console.log('掲示板の詳細を表示');
-    // 掲示板の詳細表示処理
-}
 
 // もけもけメッセージ表示関数
 function showMokemokeMessage(mokemoke) {
@@ -101,11 +100,14 @@ function showMokemokeMessage(mokemoke) {
         'いい天気だね〜',
         'また遊びに来てね！',
         'もけもけ〜♪',
-        '村へようこそ！'
+        '村へようこそ！',
+        '音楽の家で曲を聴こう♪',
+        'ゲームの家で遊ぼう！',
+        '掲示板をチェックしてね📋'
     ];
-    
+
     const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-    
+
     // メッセージバブルを作成
     const bubble = document.createElement('div');
     bubble.className = 'message-bubble';
@@ -118,18 +120,23 @@ function showMokemokeMessage(mokemoke) {
         background: white;
         padding: 8px 16px;
         border-radius: 20px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        border: 2px solid var(--pixel-border);
+        box-shadow: 3px 3px 0px var(--pixel-border);
         font-size: 14px;
+        font-family: var(--font-main);
         white-space: nowrap;
-        animation: fadeInOut 2s ease;
+        animation: fadeInOut 3s ease;
+        z-index: 1000;
     `;
-    
+
     mokemoke.appendChild(bubble);
-    
-    // 2秒後に削除
+
+    // 3秒後に削除
     setTimeout(() => {
-        bubble.remove();
-    }, 2000);
+        if (bubble.parentElement) {
+            bubble.remove();
+        }
+    }, 3000);
 }
 
 // アニメーション用のCSS追加
@@ -153,7 +160,7 @@ style.textContent = `
     
     @keyframes fadeInOut {
         0% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
-        20%, 80% { opacity: 1; transform: translateX(-50%) translateY(0); }
+        15%, 85% { opacity: 1; transform: translateX(-50%) translateY(0); }
         100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
     }
 `;
