@@ -191,57 +191,14 @@ window.addEventListener('load', () => {
     }, 1500);
 });
 
-// タッチイベントサポート関数
+// タッチイベントサポート関数（統一版への差し替え）
 function addTouchSupport(element, clickHandler) {
-    let touchStartTime = 0;
-    let touchStartPos = { x: 0, y: 0 };
-    let touchHandled = false;
-
-    // タッチ開始
-    element.addEventListener('touchstart', (e) => {
-        touchStartTime = Date.now();
-        const touch = e.touches[0];
-        touchStartPos = { x: touch.clientX, y: touch.clientY };
-        touchHandled = false;
-        // スクロール防止は削除（自然なスクロールを許可）
-    }, { passive: true });
-
-    // タッチ終了
-    element.addEventListener('touchend', (e) => {
-        const touchEndTime = Date.now();
-        const touchDuration = touchEndTime - touchStartTime;
-
-        // 短時間のタッチ（300ms以下）をタップとして処理
-        if (touchDuration < 300 && !touchHandled) {
-            const touch = e.changedTouches[0];
-            const touchEndPos = { x: touch.clientX, y: touch.clientY };
-            const distance = Math.sqrt(
-                Math.pow(touchEndPos.x - touchStartPos.x, 2) +
-                Math.pow(touchEndPos.y - touchStartPos.y, 2)
-            );
-
-            // 移動距離が小さい場合（15px以下）をタップとして処理
-            if (distance < 15) {
-                touchHandled = true;
-                console.log('📱 タッチタップ検出');
-                clickHandler(e);
-                // タッチの場合は preventDefault でクリックイベントの重複を防ぐ
-                e.preventDefault();
-            }
-        }
-    }, { passive: false });
-
-    // 通常のクリックイベント（デスクトップ＋タッチが処理されなかった場合）
-    element.addEventListener('click', (e) => {
-        // タッチイベントで処理済みの場合は無視
-        if (touchHandled) {
-            touchHandled = false; // リセット
-            return;
-        }
-        console.log('🖱️ クリックイベント検出');
-        // デスクトップまたはタッチが失敗した場合のフォールバック
-        // ここではpreventDefaultしない（自然なリンク遷移を許可）
-    });
+    // 後方互換性のため、統一版を呼び出す
+    if (clickHandler) {
+        console.log('⚠️ 古いaddTouchSupport呼び出し - 統一版に変換');
+        element.addEventListener('click', clickHandler);
+    }
+    addUniversalTouchSupport(element);
 }
 
 // ナビゲーションの処理を統一
@@ -292,30 +249,6 @@ function initNavigation() {
 
 // 建物のクリック処理
 const buildings = document.querySelectorAll('.building');
-buildings.forEach(building => {
-    const handleBuildingClick = () => {
-        const house = building.dataset.house;
-
-        // アニメーション効果
-        building.style.animation = 'bounce 0.5s ease';
-
-        setTimeout(() => {
-            building.style.animation = '';
-            // アニメーション後にページ遷移
-            navigateToHouse(house);
-        }, 500);
-    };
-
-    // タッチサポートを追加
-    addTouchSupport(building, handleBuildingClick);
-
-    // ホバー時の効果音（デスクトップのみ）
-    if (!('ontouchstart' in window)) {
-        building.addEventListener('mouseenter', () => {
-            // 効果音を再生する処理をここに追加可能
-        });
-    }
-});
 
 // 掲示板のクリック処理
 const bulletinBoard = document.querySelector('.bulletin-board');
@@ -505,6 +438,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('📱 DOM読み込み完了 - 初期化開始');
     console.log('画面幅:', window.innerWidth);
     console.log('デバイス判定:', window.innerWidth <= 768 ? 'モバイル' : 'デスクトップ');
+    console.log('現在のページ:', window.location.pathname);
 
     // モバイルメニューの初期化
     try {
@@ -516,9 +450,9 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('❌ MobileMenu初期化エラー:', error);
     }
 
-    // ナビゲーション処理の初期化
-    initNavigation();
-    console.log('🧭 ナビゲーション初期化完了');
+    // ナビゲーション処理の初期化（すべてのページで統一）
+    initUniversalNavigation();
+    console.log('🧭 統一ナビゲーション初期化完了');
 
     // ビューポート高さ調整（モバイル対応）
     function setViewportHeight() {
@@ -579,7 +513,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    console.log('🎉 初期化処理完了');
+    console.log('✅ 初期化処理完了');
 });
 
 // ========================================
@@ -635,3 +569,110 @@ window.addEventListener('beforeunload', () => {
 });
 
 console.log('もけもけの村へようこそ！🌱 (ハンバーガーメニュー対応版)');
+
+// 統一ナビゲーション処理（全ページ対応）
+function initUniversalNavigation() {
+    console.log('🔗 統一ナビゲーション初期化開始');
+
+    // すべてのナビリンクを取得
+    const navLinks = document.querySelectorAll('.nav-link');
+    console.log('発見されたナビリンク数:', navLinks.length);
+
+    navLinks.forEach((link, index) => {
+        const href = link.getAttribute('href');
+        console.log(`リンク${index + 1}: ${href}`);
+
+        // クリックイベントを追加
+        link.addEventListener('click', (e) => {
+            console.log('🔗 ナビリンククリック:', href);
+
+            // モバイルメニューが開いている場合は閉じる
+            if (mobileMenuInstance && mobileMenuInstance.isOpen) {
+                console.log('📱 モバイルメニューを閉じる');
+                mobileMenuInstance.close();
+            }
+
+            // アンカーリンク（#）の場合のみ特別処理
+            if (href && href.startsWith('#')) {
+                const targetId = href.substring(1);
+                if (targetId === 'home') {
+                    e.preventDefault();
+                    // ホームページにスクロール
+                    const villageMap = document.querySelector('.village-map');
+                    if (villageMap) {
+                        villageMap.scrollIntoView({ behavior: 'smooth' });
+                    }
+                    return;
+                }
+            }
+
+            // .htmlリンクの場合は自然な遷移を許可
+            // preventDefault()は呼ばない
+
+            // アクティブクラスの切り替え
+            navLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+        });
+
+        // タッチサポートも追加
+        addUniversalTouchSupport(link);
+    });
+
+    // 戻るボタンの処理も統一
+    const backBtn = document.querySelector('.back-btn');
+    if (backBtn) {
+        console.log('🔙 戻るボタンが見つかりました');
+        backBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('🔙 戻るボタンクリック - index.htmlに遷移');
+            window.location.href = 'index.html';
+        });
+        addUniversalTouchSupport(backBtn);
+    }
+}
+
+// 統一タッチサポート（競合を避ける）
+function addUniversalTouchSupport(element) {
+    if (!element || element.hasAttribute('data-touch-initialized')) {
+        return; // 既に初期化済みの場合は重複を避ける
+    }
+
+    element.setAttribute('data-touch-initialized', 'true');
+
+    let touchStartTime = 0;
+    let touchStartPos = { x: 0, y: 0 };
+    let touchHandled = false;
+
+    // タッチ開始
+    element.addEventListener('touchstart', (e) => {
+        touchStartTime = Date.now();
+        const touch = e.touches[0];
+        touchStartPos = { x: touch.clientX, y: touch.clientY };
+        touchHandled = false;
+    }, { passive: true });
+
+    // タッチ終了
+    element.addEventListener('touchend', (e) => {
+        const touchEndTime = Date.now();
+        const touchDuration = touchEndTime - touchStartTime;
+
+        // 短時間のタッチ（300ms以下）をタップとして処理
+        if (touchDuration < 300 && !touchHandled) {
+            const touch = e.changedTouches[0];
+            const touchEndPos = { x: touch.clientX, y: touch.clientY };
+            const distance = Math.sqrt(
+                Math.pow(touchEndPos.x - touchStartPos.x, 2) +
+                Math.pow(touchEndPos.y - touchStartPos.y, 2)
+            );
+
+            // 移動距離が小さい場合（15px以下）をタップとして処理
+            if (distance < 15) {
+                touchHandled = true;
+                console.log('📱 統一タッチタップ検出');
+                // タッチの場合は自然なクリックイベントに任せる
+                element.click();
+                e.preventDefault();
+            }
+        }
+    }, { passive: false });
+}
