@@ -7,27 +7,38 @@
 
 /* 基本設定 */
 :root {
-    /* カラーパレット */
-    --primary-green: #7EC850;
-    --secondary-green: #A8D99C;
-    --light-green: #E8F5E9;
-    --sky-blue: #87CEEB;
-    --light-sky: #E3F2FD;
-    --brown: #8B6F47;
-    --light-brown: #D2B48C;
-    --orange: #FF9800;
-    --light-orange: #FFE0B2;
+    /* レトロゲーム風カラーパレット */
+    --primary-green: #00CC44;
+    --secondary-green: #44DD77;
+    --light-green: #AAFFCC;
+    --sky-blue: #3399FF;
+    --light-sky: #88CCFF;
+    --brown: #994422;
+    --light-brown: #CC8844;
+    --orange: #FF6600;
+    --light-orange: #FFAA44;
     --white: #FFFFFF;
-    --text-dark: #333333;
-    --text-light: #666666;
+    --text-dark: #222222;
+    --text-light: #555555;
+    
+    /* レトロゲーム風追加色 */
+    --pixel-border: #000000;
+    --retro-yellow: #FFDD00;
+    --retro-red: #FF3333;
+    --retro-purple: #AA44CC;
     
     /* フォント */
-    --font-main: 'Klee One', cursive, sans-serif;
+    --font-main: 'DotGothic16', cursive, monospace;
     
-    /* 影 */
-    --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
-    --shadow-md: 0 4px 8px rgba(0,0,0,0.15);
-    --shadow-lg: 0 8px 16px rgba(0,0,0,0.2);
+    /* ピクセル風ボーダー */
+    --pixel-border-sm: 2px solid var(--pixel-border);
+    --pixel-border-md: 3px solid var(--pixel-border);
+    --pixel-border-lg: 4px solid var(--pixel-border);
+    
+    /* レトロ風影（無し） */
+    --shadow-sm: none;
+    --shadow-md: none;
+    --shadow-lg: none;
 }
 
 body {
@@ -82,7 +93,7 @@ body {
 /* ヘッダー */
 .site-header {
     background: var(--white);
-    box-shadow: var(--shadow-sm);
+    border-bottom: var(--pixel-border-md);
     padding: 20px 0;
     position: sticky;
     top: 0;
@@ -110,14 +121,18 @@ body {
     color: var(--text-dark);
     font-size: 1.1rem;
     padding: 8px 16px;
-    border-radius: 20px;
-    transition: all 0.3s ease;
+    border: var(--pixel-border-sm);
+    background: var(--light-sky);
+    transition: all 0.1s ease;
+    font-weight: bold;
 }
 
 .nav-link:hover, .nav-link.active {
     background: var(--primary-green);
     color: var(--white);
-    transform: translateY(-2px);
+    border-color: var(--pixel-border);
+    transform: translate(-2px, -2px);
+    box-shadow: 2px 2px 0 var(--pixel-border);
 }
 
 /* メインコンテンツ */
@@ -288,12 +303,14 @@ body {
     position: relative;
     top: 60px;
     z-index: 2;
+    filter: drop-shadow(2px 0 0 var(--pixel-border)) drop-shadow(-2px 0 0 var(--pixel-border));
 }
 
 .building-body {
     width: 180px;
     height: 150px;
     background: var(--light-brown);
+    border: var(--pixel-border-md);
     position: relative;
     top: 60px;
     padding: 15px 20px 30px 20px;
@@ -301,7 +318,6 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    box-shadow: var(--shadow-md);
     z-index: 1;
 }
 
@@ -322,11 +338,11 @@ body {
     width: 50px;
     height: 70px;
     background: var(--brown);
+    border: var(--pixel-border-sm);
     position: absolute;
     bottom: 15px;
     left: 50%;
     transform: translateX(-50%);
-    border-radius: 25px 25px 0 0;
     z-index: 0;
 }
 
@@ -351,10 +367,8 @@ body {
     width: 250px;
     height: 200px;
     background: var(--brown);
-    border: 5px solid var(--brown);
-    border-radius: 10px;
+    border: var(--pixel-border-lg);
     padding: 20px;
-    box-shadow: var(--shadow-md);
     position: relative;
 }
 
@@ -363,7 +377,7 @@ body {
     position: absolute;
     inset: 10px;
     background: var(--light-orange);
-    border-radius: 5px;
+    border: var(--pixel-border-sm);
     z-index: -1;
 }
 
@@ -375,8 +389,8 @@ body {
 
 .board-content {
     background: var(--white);
+    border: var(--pixel-border-sm);
     padding: 15px;
-    border-radius: 5px;
     height: calc(100% - 50px);
 }
 
