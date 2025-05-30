@@ -836,12 +836,19 @@ body::after {
 
 .village-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 50px;
-    max-width: 1000px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 80px;
+    /* より大きなスペース確保 */
+    max-width: 1200px;
+    /* より広く */
     margin: 0 auto;
-    padding: 40px 20px;
-    align-items: end;
+    padding: 80px 20px;
+    /* より大きなパディング */
+    align-items: start;
+    /* 上揃えに変更 */
+    position: relative;
+    min-height: 600px;
+    /* 最小の高さを確保 */
 }
 
 /* ========================================
@@ -858,6 +865,8 @@ body::after {
     position: relative;
     transform-style: preserve-3d;
     perspective: 1000px;
+    margin: 40px 20px;
+    /* スペース確保 */
 
     /* Apple級の自然な変形準備 */
     will-change: transform, filter;
@@ -914,13 +923,24 @@ body::after {
 }
 
 .building-icon {
-    font-size: 3rem;
+    font-size: 2.5rem;
     position: absolute;
-    top: 30px;
-    z-index: 3;
+    top: -60px;
+    /* 建物より十分上に配置 */
+    z-index: 10;
+    /* 最優先表示 */
     animation: floatPremium 3s ease-in-out infinite;
     transform-style: preserve-3d;
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+    background: rgba(255, 255, 255, 0.9);
+    /* 背景を追加 */
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--primary-green);
 }
 
 /* より自然な浮遊アニメーション */
@@ -929,43 +949,45 @@ body::after {
     0%,
     100% {
         transform: translateY(0) rotateY(0deg) scale(1);
-        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
     }
 
     25% {
         transform: translateY(-3px) rotateY(2deg) scale(1.02);
-        filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.25));
+        filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.35));
     }
 
     50% {
         transform: translateY(-6px) rotateY(0deg) scale(1.05);
-        filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
+        filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
     }
 
     75% {
         transform: translateY(-3px) rotateY(-2deg) scale(1.02);
-        filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.25));
+        filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.35));
     }
 }
 
 .music-house .building-icon {
     animation-delay: 0s;
     color: #FF6B6B;
+    background: linear-gradient(135deg, #FFE0E0, #FFF0F0);
 }
 
 .game-house .building-icon {
     animation-delay: 1s;
     color: #4ECDC4;
+    background: linear-gradient(135deg, #E0F9F7, #F0FFFE);
 }
 
 /* リアルタイム光沢効果 */
 .building::before {
     content: '';
     position: absolute;
-    top: -10px;
-    left: -10px;
-    right: -10px;
-    bottom: -10px;
+    top: -20px;
+    left: -20px;
+    right: -20px;
+    bottom: -20px;
     background: linear-gradient(45deg,
             transparent 0%,
             rgba(255, 215, 0, 0.1) 25%,
@@ -977,6 +999,7 @@ body::after {
     transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
     pointer-events: none;
     border-radius: 20px;
+    z-index: -1;
 }
 
 .building:hover::before {
@@ -1006,28 +1029,21 @@ body::after {
     border-right: 100px solid transparent;
     border-bottom: 80px solid var(--premium-orange);
     position: relative;
-    top: -10px;
-    /* 修正: 上に移動して重なりを防ぐ */
+    top: 0;
+    /* リセット：重なりを防ぐ */
     z-index: 3;
-    /* 修正: 本体より上のレイヤーに */
-    margin-bottom: -40px;
-    /* 修正: 下の要素との間隔調整 */
+    margin-bottom: 0;
+    /* リセット：適切な間隔に */
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
 
     /* 高級感のある屋根のグラデーション */
     background: var(--gradient-premium);
 }
 
+/* 屋根の装飾効果を削除（二重表示の原因） */
 .building-roof::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: -100px;
-    border-left: 100px solid transparent;
-    border-right: 100px solid transparent;
-    border-bottom: 80px solid var(--gold);
-    opacity: 0.3;
-    filter: blur(1px);
+    display: none;
+    /* 二重表示を防ぐため無効化 */
 }
 
 .building-body {
@@ -1037,15 +1053,15 @@ body::after {
     border: var(--border-medium);
     border-radius: 8px;
     position: relative;
-    top: 20px;
-    /* 修正: 屋根との適切な間隔に調整 */
-    padding: 15px 20px 30px 20px;
+    top: -10px;
+    /* 屋根と適切に接続 */
+    padding: 20px;
     text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
+    /* 中央配置 */
     z-index: 2;
-    /* 修正: 屋根より下、ドアより上に */
     box-shadow: var(--shadow-medium);
 
     /* 高級感のある質感 */
@@ -1068,23 +1084,34 @@ body::after {
             rgba(0, 0, 0, 0.1) 100%);
     border-radius: 6px;
     opacity: 0.8;
+    z-index: -1;
+    /* 背景として表示 */
 }
 
 .building-body h3 {
-    font-size: 1.2rem;
-    margin-bottom: 8px;
+    font-size: 1.3rem;
+    margin-bottom: 12px;
     color: var(--text-primary);
-    margin-top: 10px;
-    z-index: 1;
+    z-index: 10;
     position: relative;
+    background: rgba(255, 255, 255, 0.9);
+    /* 背景追加 */
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .building-body p {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: var(--text-secondary);
-    line-height: 1.4;
-    z-index: 1;
+    line-height: 1.5;
+    z-index: 10;
     position: relative;
+    background: rgba(255, 255, 255, 0.8);
+    /* 背景追加 */
+    padding: 10px;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 .building-door {
@@ -1094,11 +1121,30 @@ body::after {
     border: var(--border-elegant);
     border-radius: 4px;
     position: absolute;
-    bottom: 15px;
+    bottom: -35px;
+    /* 建物から突出 */
     left: 50%;
     transform: translateX(-50%);
-    z-index: 0;
+    z-index: 5;
     box-shadow: var(--shadow-soft);
+
+    /* ドアの装飾 */
+    background-image:
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 50%);
+}
+
+/* ドアノブ追加 */
+.building-door::after {
+    content: '';
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* 掲示板 */
@@ -1106,6 +1152,32 @@ body::after {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    margin: 40px 20px;
+    /* 建物と同じマージン */
+}
+
+/* 掲示板アイコン */
+.board-area::before {
+    content: '📋';
+    font-size: 2.5rem;
+    position: absolute;
+    top: -60px;
+    /* 建物アイコンと同じ位置 */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    background: linear-gradient(135deg, #E8F5E8, #F0FFF0);
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--primary-green);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+    animation: floatPremium 3s ease-in-out infinite 2s;
+    /* 2秒遅延 */
 }
 
 .bulletin-board {
@@ -1143,19 +1215,28 @@ body::after {
 .board-frame h3 {
     text-align: center;
     margin-bottom: 15px;
-    color: var(--text-dark);
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.9);
+    /* 背景追加 */
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .board-content {
-    background: var(--white);
-    border: var(--pixel-border-sm);
+    background: rgba(255, 255, 255, 0.95);
+    /* 少し透明に */
+    border: var(--border-elegant);
     padding: 15px;
     height: calc(100% - 50px);
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .board-content p {
     font-size: 0.9rem;
     margin-bottom: 8px;
+    color: var(--text-secondary);
 }
 
 .board-legs {
@@ -1262,11 +1343,65 @@ body::after {
 
     .village-container {
         grid-template-columns: 1fr;
-        gap: 30px;
+        gap: 60px;
+        /* モバイルでもスペース確保 */
+        padding: 60px 10px;
+        /* パディング調整 */
     }
 
     .building {
-        margin: 0 auto;
+        margin: 0 auto 40px auto;
+        /* 下マージン追加 */
+    }
+
+    /* モバイルでの建物アイコン調整 */
+    .building-icon {
+        font-size: 2rem;
+        /* モバイルで少し小さく */
+        width: 70px;
+        height: 70px;
+        top: -50px;
+        /* 位置調整 */
+    }
+
+    /* モバイルでの掲示板アイコン調整 */
+    .board-area::before {
+        font-size: 2rem;
+        width: 70px;
+        height: 70px;
+        top: -50px;
+    }
+
+    /* 建物本体をモバイル用に調整 */
+    .building-roof {
+        width: 180px;
+        border-left: 90px solid transparent;
+        border-right: 90px solid transparent;
+        border-bottom: 70px solid var(--premium-orange);
+    }
+
+    .building-body {
+        width: 160px;
+        height: 130px;
+        padding: 15px;
+    }
+
+    .building-body h3 {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+        padding: 6px 10px;
+    }
+
+    .building-body p {
+        font-size: 0.85rem;
+        padding: 8px;
+    }
+
+    /* 掲示板をモバイル用に調整 */
+    .board-frame {
+        width: 220px;
+        height: 180px;
+        padding: 15px;
     }
 }
 
