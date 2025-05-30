@@ -7,75 +7,140 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="description" content="もけもけの村 - 音楽の家でピアノ曲を管理しよう">
-  <title>音楽の家 | もけもけの村</title>
+
+  <!-- SEO最適化 -->
+  <title>🎹 音楽の家 - ピアノ演奏曲管理 | もけもけの村</title>
+  <meta name="description" content="もけもけの村の音楽の家でピアノ演奏曲を管理しましょう。曲名、難易度、ジャンル、作曲者、演奏メモを記録して、あなたの音楽ライブラリを充実させよう！">
+  <meta name="keywords" content="ピアノ, 演奏曲, 音楽管理, 楽曲データベース, 難易度, ジャンル, 作曲者, 練習記録, もけもけの村">
+  <meta name="author" content="mokemoke0821">
+
+  <!-- OGP（Open Graph Protocol） -->
+  <meta property="og:title" content="🎹 音楽の家 - ピアノ演奏曲管理 | もけもけの村">
+  <meta property="og:description" content="ピアノ演奏曲を体系的に管理できる音楽の家。難易度別整理、ジャンル分類、演奏メモ機能で、あなたの音楽ライフをサポートします。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mokemoke0821.github.io/mokemoke-village/piano.html">
+  <meta property="og:site_name" content="もけもけの村">
+  <meta property="og:locale" content="ja_JP">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="🎹 音楽の家 | もけもけの村">
+  <meta name="twitter:description" content="ピアノ演奏曲管理システム - 難易度別整理とメモ機能付き">
+
+  <!-- Favicon -->
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎹</text></svg>">
+  <link rel="apple-touch-icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎹</text></svg>">
 
   <!-- CSS -->
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/mobile-fix.css">
 
   <!-- レトロゲーム風フォント -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+
+  <!-- 構造化データ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "音楽の家 - ピアノ演奏曲管理",
+    "description": "ピアノ演奏曲を体系的に管理できる音楽管理システム",
+    "url": "https://mokemoke0821.github.io/mokemoke-village/piano.html",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "もけもけの村",
+      "url": "https://mokemoke0821.github.io/mokemoke-village/"
+    },
+    "about": {
+      "@type": "Thing",
+      "name": "ピアノ音楽管理"
+    }
+  }
+  </script>
 </head>
 
 <body>
+  <!-- スキップリンク -->
+  <a href="#main-content" class="skip-link sr-only">メインコンテンツにスキップ</a>
+
   <!-- ヘッダー -->
-  <header class="site-header">
+  <header class="site-header" role="banner">
     <div class="header-container">
       <h1 class="site-title">🎹 音楽の家</h1>
 
       <!-- ハンバーガーメニューボタン（モバイル用） -->
-      <button class="mobile-menu-toggle" aria-label="メニューを開く" aria-expanded="false">
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
+      <button class="mobile-menu-toggle" aria-label="メニューを開く" aria-expanded="false" aria-controls="main-nav"
+        type="button">
+        <span class="hamburger-line" aria-hidden="true"></span>
+        <span class="hamburger-line" aria-hidden="true"></span>
+        <span class="hamburger-line" aria-hidden="true"></span>
       </button>
 
-      <nav class="main-nav">
+      <nav class="main-nav" id="main-nav" role="navigation" aria-label="メインナビゲーション">
         <ul class="nav-list">
-          <li><a href="index.html" class="nav-link">← 村の広場に戻る</a></li>
+          <li><a href="index.html" class="nav-link" aria-label="村の広場に戻る">← 村の広場に戻る</a></li>
           <li><a href="games.html" class="nav-link">🎲 ゲームの家</a></li>
           <li><a href="board.html" class="nav-link">📋 掲示板</a></li>
         </ul>
       </nav>
 
       <!-- モバイルオーバーレイ -->
-      <div class="mobile-overlay"></div>
+      <div class="mobile-overlay" aria-hidden="true"></div>
     </div>
   </header>
 
   <!-- メインコンテンツ -->
-  <main class="main-content">
+  <main class="main-content" id="main-content" role="main">
     <div class="content">
       <!-- 検索・フィルターパネル -->
-      <div class="search-panel">
+      <section class="search-panel" role="search" aria-labelledby="search-heading">
+        <h2 id="search-heading" class="sr-only">楽曲検索とフィルター</h2>
+
         <div class="search-controls">
-          <input type="text" id="searchInput" class="search-input" placeholder="🔍 曲名で検索...">
+          <div class="search-group">
+            <label for="searchInput" class="sr-only">楽曲検索</label>
+            <input type="search" id="searchInput" class="search-input" placeholder="🔍 曲名で検索..." autocomplete="off"
+              aria-describedby="search-help">
+            <div id="search-help" class="sr-only">曲名を入力してリアルタイム検索できます</div>
+          </div>
 
-          <select id="difficultyFilter" class="filter-select">
-            <option value="all">すべて</option>
-            <option value="初級">🟢 初級</option>
-            <option value="中級">🟡 中級</option>
-            <option value="上級">🔴 上級</option>
-          </select>
+          <div class="filter-group">
+            <label for="difficultyFilter" class="sr-only">難易度フィルター</label>
+            <select id="difficultyFilter" class="filter-select" aria-describedby="filter-help">
+              <option value="all">すべての難易度</option>
+              <option value="初級">🟢 初級</option>
+              <option value="中級">🟡 中級</option>
+              <option value="上級">🔴 上級</option>
+            </select>
+            <div id="filter-help" class="sr-only">難易度で楽曲をフィルタリングできます</div>
+          </div>
 
-          <button id="addSongBtn" class="add-song-btn">♪ 新しい曲を追加</button>
+          <button id="addSongBtn" class="add-song-btn" type="button" aria-describedby="add-btn-help">
+            ♪ 新しい曲を追加
+          </button>
+          <div id="add-btn-help" class="sr-only">新しい楽曲を登録するためのフォームを開きます</div>
         </div>
 
-        <div class="stats">
+        <div class="stats" role="status" aria-live="polite">
           <span class="song-count">総曲数: <span id="songCount">0</span>曲</span>
         </div>
-      </div>
+      </section>
 
       <!-- 曲リスト -->
-      <div id="songList" class="song-list">
-        <!-- 動的に生成されます -->
-      </div>
+      <section class="song-section" aria-labelledby="song-list-heading">
+        <h2 id="song-list-heading" class="sr-only">登録楽曲一覧</h2>
+        <div id="songList" class="song-list" role="list" aria-live="polite" aria-label="楽曲リスト">
+          <!-- 動的に生成されます -->
+        </div>
+      </section>
 
       <!-- 空の状態 -->
-      <div id="emptyState" class="empty-state">
-        <div class="empty-icon">🎵</div>
+      <div id="emptyState" class="empty-state" role="status" aria-live="polite">
+        <div class="empty-icon" aria-hidden="true">🎵</div>
         <h3>まだ曲が登録されていません</h3>
         <p>「♪ 新しい曲を追加」ボタンから最初の曲を登録してみませんか？</p>
       </div>
@@ -83,44 +148,58 @@
   </main>
 
   <!-- 曲追加・編集モーダル -->
-  <div id="songModal" class="modal hidden">
-    <div class="modal-backdrop" id="modalBackdrop"></div>
+  <div id="songModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title"
+    aria-hidden="true">
+    <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true"></div>
     <div class="modal-content">
       <div class="modal-header">
-        <h2 id="modalTitle">♪ 新しい曲を追加</h2>
-        <button id="closeModal" class="close-btn">✕</button>
+        <h2 id="modal-title">♪ 新しい曲を追加</h2>
+        <button id="closeModal" class="close-btn" type="button" aria-label="モーダルを閉じる">✕</button>
       </div>
 
-      <form id="songForm" class="song-form">
-        <div class="form-group">
-          <label for="songTitle">曲名 *</label>
-          <input type="text" id="songTitle" class="form-input" placeholder="曲名を入力" required>
-        </div>
+      <form id="songForm" class="song-form" novalidate>
+        <fieldset>
+          <legend class="sr-only">楽曲情報入力</legend>
 
-        <div class="form-group">
-          <label for="songDifficulty">難易度 *</label>
-          <select id="songDifficulty" class="form-select" required>
-            <option value="">選択してください</option>
-            <option value="初級">🟢 初級</option>
-            <option value="中級">🟡 中級</option>
-            <option value="上級">🔴 上級</option>
-          </select>
-        </div>
+          <div class="form-group">
+            <label for="songTitle">曲名 <span aria-label="必須">*</span></label>
+            <input type="text" id="songTitle" class="form-input" placeholder="曲名を入力" required autocomplete="off"
+              maxlength="100" aria-describedby="title-help">
+            <div id="title-help" class="form-help">楽曲の正式なタイトルを入力してください</div>
+          </div>
 
-        <div class="form-group">
-          <label for="songGenre">ジャンル</label>
-          <input type="text" id="songGenre" class="form-input" placeholder="例: クラシック、ポップス、アニメ">
-        </div>
+          <div class="form-group">
+            <label for="songDifficulty">難易度 <span aria-label="必須">*</span></label>
+            <select id="songDifficulty" class="form-select" required aria-describedby="difficulty-help">
+              <option value="">選択してください</option>
+              <option value="初級">🟢 初級</option>
+              <option value="中級">🟡 中級</option>
+              <option value="上級">🔴 上級</option>
+            </select>
+            <div id="difficulty-help" class="form-help">演奏の難易度を選択してください</div>
+          </div>
 
-        <div class="form-group">
-          <label for="songComposer">作曲者</label>
-          <input type="text" id="songComposer" class="form-input" placeholder="作曲者名">
-        </div>
+          <div class="form-group">
+            <label for="songGenre">ジャンル</label>
+            <input type="text" id="songGenre" class="form-input" placeholder="例: クラシック、ポップス、アニメ" autocomplete="off"
+              maxlength="50" aria-describedby="genre-help">
+            <div id="genre-help" class="form-help">楽曲のジャンルや分類を入力してください</div>
+          </div>
 
-        <div class="form-group">
-          <label for="songNotes">メモ・コメント</label>
-          <textarea id="songNotes" class="form-textarea" placeholder="演奏のコツや感想など..."></textarea>
-        </div>
+          <div class="form-group">
+            <label for="songComposer">作曲者</label>
+            <input type="text" id="songComposer" class="form-input" placeholder="作曲者名" autocomplete="off"
+              maxlength="100" aria-describedby="composer-help">
+            <div id="composer-help" class="form-help">作曲者の名前を入力してください</div>
+          </div>
+
+          <div class="form-group">
+            <label for="songNotes">メモ・コメント</label>
+            <textarea id="songNotes" class="form-textarea" placeholder="演奏のコツや感想など..." maxlength="500"
+              aria-describedby="notes-help"></textarea>
+            <div id="notes-help" class="form-help">演奏時の注意点やコツ、感想などを記録できます</div>
+          </div>
+        </fieldset>
 
         <div class="form-actions">
           <button type="submit" class="save-btn">💾 保存</button>

@@ -7,118 +7,184 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="description" content="もけもけの村 - 村の掲示板でみんなと交流しよう">
-  <title>村の掲示板 | もけもけの村</title>
+
+  <!-- SEO最適化 -->
+  <title>📋 村の掲示板 - コミュニティ交流の場 | もけもけの村</title>
+  <meta name="description" content="もけもけの村の掲示板でみんなと交流しましょう。投稿・削除機能付きのコミュニティ掲示板で、温かい村の仲間たちと楽しい時間を過ごそう！">
+  <meta name="keywords" content="掲示板, コミュニティ, 交流, 投稿, 村の掲示板, SNS, もけもけの村, メッセージ, 村民交流">
+  <meta name="author" content="mokemoke0821">
+
+  <!-- OGP（Open Graph Protocol） -->
+  <meta property="og:title" content="📋 村の掲示板 - コミュニティ交流の場 | もけもけの村">
+  <meta property="og:description" content="村民みんなが集う温かい掲示板。投稿・交流機能で、もけもけの村のコミュニティをもっと楽しく盛り上げましょう。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mokemoke0821.github.io/mokemoke-village/board.html">
+  <meta property="og:site_name" content="もけもけの村">
+  <meta property="og:locale" content="ja_JP">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="📋 村の掲示板 | もけもけの村">
+  <meta name="twitter:description" content="村民交流コミュニティ掲示板 - 投稿・削除機能付き">
+
+  <!-- Favicon -->
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+  <link rel="apple-touch-icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
 
   <!-- CSS -->
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/mobile-fix.css">
 
   <!-- レトロゲーム風フォント -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+
+  <!-- 構造化データ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "村の掲示板 - コミュニティ交流の場",
+    "description": "村民が交流できるコミュニティ掲示板システム",
+    "url": "https://mokemoke0821.github.io/mokemoke-village/board.html",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "もけもけの村",
+      "url": "https://mokemoke0821.github.io/mokemoke-village/"
+    },
+    "about": {
+      "@type": "Thing",
+      "name": "コミュニティ掲示板"
+    }
+  }
+  </script>
 </head>
 
 <body>
+  <!-- スキップリンク -->
+  <a href="#main-content" class="skip-link sr-only">メインコンテンツにスキップ</a>
+
   <!-- ヘッダー -->
-  <header class="site-header">
+  <header class="site-header" role="banner">
     <div class="header-container">
       <h1 class="site-title">📋 村の掲示板</h1>
 
       <!-- ハンバーガーメニューボタン（モバイル用） -->
-      <button class="mobile-menu-toggle" aria-label="メニューを開く" aria-expanded="false">
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
+      <button class="mobile-menu-toggle" aria-label="メニューを開く" aria-expanded="false" aria-controls="main-nav"
+        type="button">
+        <span class="hamburger-line" aria-hidden="true"></span>
+        <span class="hamburger-line" aria-hidden="true"></span>
+        <span class="hamburger-line" aria-hidden="true"></span>
       </button>
 
-      <nav class="main-nav">
+      <nav class="main-nav" id="main-nav" role="navigation" aria-label="メインナビゲーション">
         <ul class="nav-list">
-          <li><a href="index.html" class="nav-link">← 村の広場に戻る</a></li>
+          <li><a href="index.html" class="nav-link" aria-label="村の広場に戻る">← 村の広場に戻る</a></li>
           <li><a href="piano.html" class="nav-link">🎹 音楽の家</a></li>
           <li><a href="games.html" class="nav-link">🎲 ゲームの家</a></li>
         </ul>
       </nav>
 
       <!-- モバイルオーバーレイ -->
-      <div class="mobile-overlay"></div>
+      <div class="mobile-overlay" aria-hidden="true"></div>
     </div>
   </header>
 
   <!-- メインコンテンツ -->
-  <main class="main-content">
+  <main class="main-content" id="main-content" role="main">
     <div class="content">
       <!-- 投稿フォーム -->
-      <div class="post-form-panel">
-        <h2>✍️ 新しい投稿</h2>
-        <form id="postForm" class="post-form">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="authorName">投稿者名 *</label>
-              <input type="text" id="authorName" class="form-input" placeholder="あなたの名前" maxlength="20" required>
+      <section class="post-form-panel" aria-labelledby="post-form-heading">
+        <h2 id="post-form-heading">✍️ 新しい投稿</h2>
+        <form id="postForm" class="post-form" novalidate>
+          <fieldset>
+            <legend class="sr-only">投稿情報入力</legend>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="authorName">投稿者名 <span aria-label="必須">*</span></label>
+                <input type="text" id="authorName" class="form-input" placeholder="あなたの名前" maxlength="20" required
+                  autocomplete="username" aria-describedby="author-help">
+                <div id="author-help" class="form-help">掲示板で表示される名前を入力してください（20文字以内）</div>
+              </div>
+
+              <div class="form-group">
+                <label for="postTitle">タイトル <span aria-label="必須">*</span></label>
+                <input type="text" id="postTitle" class="form-input" placeholder="投稿のタイトル" maxlength="50" required
+                  autocomplete="off" aria-describedby="title-help">
+                <div id="title-help" class="form-help">投稿の件名を入力してください（50文字以内）</div>
+              </div>
             </div>
 
             <div class="form-group">
-              <label for="postTitle">タイトル *</label>
-              <input type="text" id="postTitle" class="form-input" placeholder="投稿のタイトル" maxlength="50" required>
+              <label for="postContent">メッセージ <span aria-label="必須">*</span></label>
+              <textarea id="postContent" class="form-textarea" placeholder="みんなに伝えたいことを書いてみてください..." maxlength="500"
+                rows="4" required aria-describedby="content-help char-count"></textarea>
+              <div id="content-help" class="form-help">村民のみんなに伝えたいメッセージを入力してください</div>
+              <div class="char-count" role="status" aria-live="polite">
+                <span id="charCount">0</span> / 500 文字
+              </div>
             </div>
-          </div>
-
-          <div class="form-group">
-            <label for="postContent">メッセージ *</label>
-            <textarea id="postContent" class="form-textarea" placeholder="みんなに伝えたいことを書いてみてください..." maxlength="500"
-              rows="4" required></textarea>
-            <div class="char-count">
-              <span id="charCount">0</span> / 500 文字
-            </div>
-          </div>
+          </fieldset>
 
           <div class="form-actions">
             <button type="submit" class="post-btn">📝 投稿する</button>
             <button type="button" id="clearForm" class="clear-btn">🗑️ クリア</button>
           </div>
         </form>
-      </div>
+      </section>
 
       <!-- 投稿一覧ヘッダー -->
-      <div class="posts-header">
-        <h2>💬 みんなの投稿</h2>
-        <div class="posts-info">
-          <span class="post-count">投稿数: <span id="postCount">0</span>件</span>
-          <button id="clearAllPosts" class="clear-all-btn">🗑️ 全削除</button>
+      <section class="posts-section" aria-labelledby="posts-heading">
+        <div class="posts-header">
+          <h2 id="posts-heading">💬 みんなの投稿</h2>
+          <div class="posts-info">
+            <div class="post-count" role="status" aria-live="polite">
+              投稿数: <span id="postCount">0</span>件
+            </div>
+            <button id="clearAllPosts" class="clear-all-btn" type="button" aria-describedby="clear-all-help">
+              🗑️ 全削除
+            </button>
+            <div id="clear-all-help" class="sr-only">すべての投稿を削除します。この操作は取り消せません。</div>
+          </div>
         </div>
-      </div>
 
-      <!-- 投稿一覧 -->
-      <div id="postsContainer" class="posts-container">
-        <!-- 動的に生成されます -->
-      </div>
+        <!-- 投稿一覧 -->
+        <div id="postsContainer" class="posts-container" role="list" aria-live="polite" aria-label="投稿一覧">
+          <!-- 動的に生成されます -->
+        </div>
 
-      <!-- 空の状態 -->
-      <div id="emptyState" class="empty-state">
-        <div class="empty-icon">📝</div>
-        <h3>まだ投稿がありません</h3>
-        <p>最初の投稿をしてみませんか？<br>みんなで楽しい村を作りましょう！</p>
-      </div>
+        <!-- 空の状態 -->
+        <div id="emptyState" class="empty-state" role="status" aria-live="polite">
+          <div class="empty-icon" aria-hidden="true">📝</div>
+          <h3>まだ投稿がありません</h3>
+          <p>最初の投稿をしてみませんか？<br>みんなで楽しい村を作りましょう！</p>
+        </div>
+      </section>
     </div>
   </main>
 
   <!-- 削除確認モーダル -->
-  <div id="deleteModal" class="modal hidden">
-    <div class="modal-backdrop" id="deleteModalBackdrop"></div>
+  <div id="deleteModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="delete-modal-title"
+    aria-hidden="true">
+    <div class="modal-backdrop" id="deleteModalBackdrop" aria-hidden="true"></div>
     <div class="modal-content small">
       <div class="modal-header">
-        <h3>🗑️ 投稿を削除</h3>
+        <h3 id="delete-modal-title">🗑️ 投稿を削除</h3>
       </div>
 
       <div class="confirm-content">
         <p>この投稿を削除しますか？</p>
-        <p class="warning">⚠️ 削除すると元に戻せません</p>
+        <p class="warning" role="alert">⚠️ 削除すると元に戻せません</p>
       </div>
 
       <div class="confirm-actions">
-        <button id="confirmDelete" class="delete-btn">削除する</button>
-        <button id="cancelDelete" class="cancel-btn">キャンセル</button>
+        <button id="confirmDelete" class="delete-btn" type="button" aria-describedby="delete-confirm-help">削除する</button>
+        <div id="delete-confirm-help" class="sr-only">投稿を完全に削除します。この操作は取り消せません。</div>
+        <button id="cancelDelete" class="cancel-btn" type="button">キャンセル</button>
       </div>
     </div>
   </div>
