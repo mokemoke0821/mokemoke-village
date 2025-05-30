@@ -1,0 +1,476 @@
+/* リセットCSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 基本設定 */
+:root {
+    /* カラーパレット */
+    --primary-green: #7EC850;
+    --secondary-green: #A8D99C;
+    --light-green: #E8F5E9;
+    --sky-blue: #87CEEB;
+    --light-sky: #E3F2FD;
+    --brown: #8B6F47;
+    --light-brown: #D2B48C;
+    --orange: #FF9800;
+    --light-orange: #FFE0B2;
+    --white: #FFFFFF;
+    --text-dark: #333333;
+    --text-light: #666666;
+    
+    /* フォント */
+    --font-main: 'Klee One', cursive, sans-serif;
+    
+    /* 影 */
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 8px rgba(0,0,0,0.15);
+    --shadow-lg: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+body {
+    font-family: var(--font-main);
+    line-height: 1.6;
+    color: var(--text-dark);
+    background: linear-gradient(to bottom, var(--sky-blue) 0%, var(--light-sky) 40%, var(--light-green) 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ローディング画面 */
+.loading-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--light-green);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+}
+
+.loading-container.hide {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.mokemoke-loader {
+    text-align: center;
+}
+
+.mokemoke-character {
+    font-size: 60px;
+    animation: rotate 2s linear infinite;
+}
+
+.mokemoke-loader p {
+    margin-top: 20px;
+    font-size: 18px;
+    color: var(--text-light);
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ヘッダー */
+.site-header {
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.site-title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: var(--primary-green);
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-size: 1.1rem;
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+    background: var(--primary-green);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+/* メインコンテンツ */
+.main-content {
+    position: relative;
+    min-height: calc(100vh - 200px);
+    padding: 40px 20px;
+}
+
+/* 背景要素 */
+.background-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.cloud {
+    position: absolute;
+    background: var(--white);
+    border-radius: 100px;
+    opacity: 0.7;
+}
+
+.cloud::before,
+.cloud::after {
+    content: '';
+    position: absolute;
+    background: var(--white);
+    border-radius: 100px;
+}
+
+.cloud-1 {
+    width: 100px;
+    height: 40px;
+    top: 10%;
+    left: -100px;
+    animation: float-cloud 20s infinite linear;
+}
+
+.cloud-1::before {
+    width: 50px;
+    height: 50px;
+    top: -25px;
+    left: 10px;
+}
+
+.cloud-1::after {
+    width: 60px;
+    height: 40px;
+    top: -15px;
+    right: 10px;
+}
+
+.cloud-2 {
+    width: 80px;
+    height: 35px;
+    top: 25%;
+    left: -80px;
+    animation: float-cloud 25s infinite linear;
+    animation-delay: 5s;
+}
+
+.cloud-2::before {
+    width: 40px;
+    height: 40px;
+    top: -20px;
+    left: 15px;
+}
+
+.cloud-2::after {
+    width: 50px;
+    height: 35px;
+    top: -10px;
+    right: 15px;
+}
+
+.cloud-3 {
+    width: 120px;
+    height: 45px;
+    top: 15%;
+    right: -120px;
+    animation: float-cloud-reverse 30s infinite linear;
+    animation-delay: 10s;
+}
+
+.cloud-3::before {
+    width: 60px;
+    height: 60px;
+    top: -30px;
+    left: 20px;
+}
+
+.cloud-3::after {
+    width: 70px;
+    height: 45px;
+    top: -15px;
+    right: 20px;
+}
+
+@keyframes float-cloud {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(100vw + 200px)); }
+}
+
+@keyframes float-cloud-reverse {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-100vw - 200px)); }
+}
+
+/* 村の地図エリア */
+.village-map {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--text-dark);
+    margin-bottom: 40px;
+}
+
+.village-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    padding: 20px;
+    min-height: 400px;
+    position: relative;
+}
+
+/* 建物のスタイル */
+.building {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.building:hover {
+    transform: translateY(-10px);
+}
+
+.building-icon {
+    font-size: 3rem;
+    position: absolute;
+    top: 20px;
+    z-index: 3;
+}
+
+.building-roof {
+    width: 200px;
+    height: 0;
+    border-left: 100px solid transparent;
+    border-right: 100px solid transparent;
+    border-bottom: 80px solid var(--orange);
+    position: relative;
+    top: 60px;
+    z-index: 2;
+}
+
+.building-body {
+    width: 180px;
+    height: 150px;
+    background: var(--light-brown);
+    position: relative;
+    top: 60px;
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: var(--shadow-md);
+    z-index: 1;
+}
+
+.building-body h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: var(--text-dark);
+}
+
+.building-body p {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.building-door {
+    width: 60px;
+    height: 80px;
+    background: var(--brown);
+    position: absolute;
+    bottom: 20px;
+    border-radius: 30px 30px 0 0;
+    z-index: 2;
+}
+
+/* 掲示板 */
+.board-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bulletin-board {
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.bulletin-board:hover {
+    transform: scale(1.05);
+}
+
+.board-frame {
+    width: 250px;
+    height: 200px;
+    background: var(--brown);
+    border: 5px solid var(--brown);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: var(--shadow-md);
+    position: relative;
+}
+
+.board-frame::before {
+    content: '';
+    position: absolute;
+    inset: 10px;
+    background: var(--light-orange);
+    border-radius: 5px;
+    z-index: -1;
+}
+
+.board-frame h3 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: var(--text-dark);
+}
+
+.board-content {
+    background: var(--white);
+    padding: 15px;
+    border-radius: 5px;
+    height: calc(100% - 50px);
+}
+
+.board-content p {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+}
+
+.board-legs {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--brown) 0%, var(--brown) 70%, transparent 100%);
+    clip-path: polygon(20% 0%, 30% 0%, 40% 100%, 30% 100%, 25% 70%, 75% 70%, 70% 100%, 60% 100%, 70% 0%, 80% 0%, 90% 100%, 80% 100%, 75% 70%, 25% 70%, 20% 100%, 10% 100%);
+}
+
+/* もけもけキャラクター */
+.mokemoke-resident {
+    position: absolute;
+    animation: float 3s ease-in-out infinite;
+}
+
+.mokemoke-1 {
+    bottom: 20px;
+    left: 10%;
+}
+
+.mokemoke-2 {
+    bottom: 30px;
+    right: 15%;
+    animation-delay: 1.5s;
+}
+
+.mokemoke-body {
+    font-size: 2rem;
+    display: block;
+}
+
+.mokemoke-eyes {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.8rem;
+    animation: blink 4s infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes blink {
+    0%, 45%, 55%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* フッター */
+.site-footer {
+    background: var(--white);
+    text-align: center;
+    padding: 30px 20px;
+    margin-top: 60px;
+    box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+}
+
+.site-footer p {
+    color: var(--text-light);
+    margin: 5px 0;
+}
+
+.footer-message {
+    font-size: 1.1rem;
+    color: var(--primary-green);
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    .site-title {
+        font-size: 2rem;
+    }
+    
+    .main-nav ul {
+        gap: 15px;
+    }
+    
+    .nav-link {
+        font-size: 1rem;
+        padding: 6px 12px;
+    }
+    
+    .village-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .building {
+        margin: 0 auto;
+    }
+}

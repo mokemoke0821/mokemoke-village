@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="もけもけの村 - 音楽とゲームが楽しめる温かいオンラインの村">
+    <title>もけもけの村へようこそ</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- フォント -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- ローディング画面 -->
+    <div id="loading" class="loading-container">
+        <div class="mokemoke-loader">
+            <div class="mokemoke-character">🌱</div>
+            <p>村を準備中...</p>
+        </div>
+    </div>
+
+    <!-- ヘッダー -->
+    <header class="site-header">
+        <h1 class="site-title">もけもけの村</h1>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#home" class="nav-link active">村の広場</a></li>
+                <li><a href="#music" class="nav-link">音楽の家</a></li>
+                <li><a href="#game" class="nav-link">ゲームの家</a></li>
+                <li><a href="#board" class="nav-link">掲示板</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="main-content">
+        <!-- 背景要素 -->
+        <div class="background-elements">
+            <div class="cloud cloud-1"></div>
+            <div class="cloud cloud-2"></div>
+            <div class="cloud cloud-3"></div>
+        </div>
+
+        <!-- 村の地図エリア -->
+        <section id="village-map" class="village-map">
+            <h2 class="section-title">村の広場</h2>
+            
+            <div class="village-container">
+                <!-- 音楽の家 -->
+                <div class="building music-house" data-house="music">
+                    <div class="building-icon">🎹</div>
+                    <div class="building-roof"></div>
+                    <div class="building-body">
+                        <h3>音楽の家</h3>
+                        <p>ピアノ演奏曲リスト</p>
+                    </div>
+                    <div class="building-door"></div>
+                </div>
+
+                <!-- ゲームの家 -->
+                <div class="building game-house" data-house="game">
+                    <div class="building-icon">🎲</div>
+                    <div class="building-roof"></div>
+                    <div class="building-body">
+                        <h3>ゲームの家</h3>
+                        <p>ボードゲームサマリー</p>
+                    </div>
+                    <div class="building-door"></div>
+                </div>
+
+                <!-- 掲示板 -->
+                <div class="board-area">
+                    <div class="bulletin-board">
+                        <div class="board-frame">
+                            <h3>掲示板</h3>
+                            <div class="board-content">
+                                <p>🌟 村へようこそ！</p>
+                                <p>📝 最新情報はこちら</p>
+                            </div>
+                        </div>
+                        <div class="board-legs"></div>
+                    </div>
+                </div>
+
+                <!-- もけもけキャラクター -->
+                <div class="mokemoke-resident mokemoke-1">
+                    <span class="mokemoke-body">🌿</span>
+                    <span class="mokemoke-eyes">・・</span>
+                </div>
+                <div class="mokemoke-resident mokemoke-2">
+                    <span class="mokemoke-body">🍄</span>
+                    <span class="mokemoke-eyes">・・</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- フッター -->
+    <footer class="site-footer">
+        <p>&copy; 2024 もけもけの村. All rights reserved.</p>
+        <p class="footer-message">みんなで楽しい村を作ろう 🌱</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+</body>
+</html>
