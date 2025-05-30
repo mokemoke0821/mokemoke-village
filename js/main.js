@@ -1,37 +1,71 @@
 // ========================================
-// 🍔 ハンバーガーメニュー機能
+// 🍔 ハンバーガーメニュー機能 - 統一実装
 // ========================================
 
 class MobileMenu {
     constructor() {
-        this.menuToggle = document.querySelector('.mobile-menu-toggle');
-        this.nav = document.querySelector('.main-nav');
-        this.overlay = document.querySelector('.mobile-overlay');
+        this.menuToggle = null;
+        this.nav = null;
+        this.overlay = null;
         this.body = document.body;
         this.isOpen = false;
+        this.isInitialized = false;
 
         this.init();
     }
 
     init() {
-        if (!this.menuToggle) return;
+        // DOM要素の取得を確実に行う
+        this.menuToggle = document.querySelector('.mobile-menu-toggle');
+        this.nav = document.querySelector('.main-nav');
+        this.overlay = document.querySelector('.mobile-overlay');
 
-        // イベントリスナー設定
-        this.menuToggle.addEventListener('click', () => this.toggle());
-        this.overlay.addEventListener('click', () => this.close());
+        console.log('🍔 MobileMenu初期化開始');
+        console.log('Menu Toggle:', this.menuToggle);
+        console.log('Navigation:', this.nav);
+        console.log('Overlay:', this.overlay);
+
+        if (!this.menuToggle || !this.nav || !this.overlay) {
+            console.error('❌ 必要な要素が見つかりません');
+            return;
+        }
+
+        this.setupEventListeners();
+        this.setupMobileStyles();
+        this.isInitialized = true;
+        console.log('✅ MobileMenu初期化完了');
+    }
+
+    setupEventListeners() {
+        // メニューボタンクリック
+        this.menuToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('🍔 メニューボタンクリック');
+            this.toggle();
+        });
+
+        // オーバーレイクリック
+        this.overlay.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('🌫️ オーバーレイクリック');
+            this.close();
+        });
 
         // ESCキーでメニューを閉じる
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && this.isOpen) {
+                console.log('⌨️ ESCキーでメニューを閉じる');
                 this.close();
             }
         });
 
         // ナビリンククリックでメニューを閉じる
-        const navLinks = document.querySelectorAll('.nav-link');
+        const navLinks = this.nav.querySelectorAll('.nav-link');
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) {
+                if (window.innerWidth <= 768 && this.isOpen) {
+                    console.log('🔗 ナビリンククリックでメニューを閉じる');
                     this.close();
                 }
             });
@@ -40,12 +74,35 @@ class MobileMenu {
         // リサイズ時の処理
         window.addEventListener('resize', () => {
             if (window.innerWidth > 768 && this.isOpen) {
+                console.log('📏 リサイズでメニューを閉じる');
                 this.close();
             }
         });
     }
 
+    setupMobileStyles() {
+        // モバイル用CSSが確実に適用されるよう強制設定
+        if (window.innerWidth <= 768) {
+            // ハンバーガーメニューボタンを表示
+            this.menuToggle.style.display = 'flex';
+
+            // ナビゲーションの初期状態を設定
+            this.nav.style.position = 'fixed';
+            this.nav.style.top = '0';
+            this.nav.style.right = '-280px';
+            this.nav.style.width = '280px';
+            this.nav.style.height = '100vh';
+            this.nav.style.zIndex = '1000';
+            this.nav.style.transition = 'right 0.3s ease';
+            this.nav.style.background = 'linear-gradient(135deg, #ffffff 0%, #e8f5e8 100%)';
+            this.nav.style.boxShadow = '-4px 0 20px rgba(0, 0, 0, 0.15)';
+            this.nav.style.paddingTop = '80px';
+            this.nav.style.overflowY = 'auto';
+        }
+    }
+
     toggle() {
+        console.log('🔄 メニュートグル - 現在の状態:', this.isOpen);
         if (this.isOpen) {
             this.close();
         } else {
@@ -54,62 +111,73 @@ class MobileMenu {
     }
 
     open() {
+        console.log('🟢 メニューを開く');
         this.isOpen = true;
-        this.menuToggle.classList.add('active');
-        this.nav.classList.add('active');
-        this.overlay.classList.add('active');
-        this.body.classList.add('menu-open');
 
-        // アクセシビリティ
+        // ボタンのアクティブ状態
+        this.menuToggle.classList.add('active');
         this.menuToggle.setAttribute('aria-expanded', 'true');
         this.menuToggle.setAttribute('aria-label', 'メニューを閉じる');
 
-        // フォーカス管理
-        this.trapFocus();
+        // ナビゲーションを表示
+        this.nav.classList.add('active');
+        this.nav.style.right = '0';
+
+        // オーバーレイを表示
+        this.overlay.classList.add('active');
+        this.overlay.style.opacity = '1';
+        this.overlay.style.visibility = 'visible';
+
+        // ボディスクロールを防ぐ
+        this.body.classList.add('menu-open');
+        this.body.style.overflow = 'hidden';
+
+        // ナビリンクアニメーション
+        this.animateNavLinks();
     }
 
     close() {
+        console.log('🔴 メニューを閉じる');
         this.isOpen = false;
-        this.menuToggle.classList.remove('active');
-        this.nav.classList.remove('active');
-        this.overlay.classList.remove('active');
-        this.body.classList.remove('menu-open');
 
-        // アクセシビリティ
+        // ボタンのアクティブ状態を解除
+        this.menuToggle.classList.remove('active');
         this.menuToggle.setAttribute('aria-expanded', 'false');
         this.menuToggle.setAttribute('aria-label', 'メニューを開く');
+
+        // ナビゲーションを隠す
+        this.nav.classList.remove('active');
+        this.nav.style.right = '-280px';
+
+        // オーバーレイを隠す
+        this.overlay.classList.remove('active');
+        this.overlay.style.opacity = '0';
+        this.overlay.style.visibility = 'hidden';
+
+        // ボディスクロールを復元
+        this.body.classList.remove('menu-open');
+        this.body.style.overflow = '';
     }
 
-    trapFocus() {
-        const focusableElements = this.nav.querySelectorAll(
-            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-        );
+    animateNavLinks() {
+        const navLinks = this.nav.querySelectorAll('.nav-link');
+        navLinks.forEach((link, index) => {
+            // アニメーションをリセット
+            link.style.transform = 'translateX(20px)';
+            link.style.opacity = '0';
 
-        if (focusableElements.length === 0) return;
-
-        const firstElement = focusableElements[0];
-        const lastElement = focusableElements[focusableElements.length - 1];
-
-        // 最初の要素にフォーカス
-        firstElement.focus();
-
-        this.nav.addEventListener('keydown', (e) => {
-            if (e.key === 'Tab') {
-                if (e.shiftKey) {
-                    if (document.activeElement === firstElement) {
-                        e.preventDefault();
-                        lastElement.focus();
-                    }
-                } else {
-                    if (document.activeElement === lastElement) {
-                        e.preventDefault();
-                        firstElement.focus();
-                    }
-                }
-            }
+            // 段階的にアニメーション
+            setTimeout(() => {
+                link.style.transition = 'all 0.3s ease';
+                link.style.transform = 'translateX(0)';
+                link.style.opacity = '1';
+            }, index * 100);
         });
     }
 }
+
+// グローバル変数として保持
+let mobileMenuInstance = null;
 
 // ローディング処理
 window.addEventListener('load', () => {
@@ -163,38 +231,37 @@ function addTouchSupport(element, clickHandler) {
     });
 }
 
-// ナビゲーションの処理
-const navLinks = document.querySelectorAll('.nav-link');
-navLinks.forEach(link => {
-    const handleNavigation = (e) => {
-        const href = link.getAttribute('href');
+// ナビゲーションの処理を統一
+function initNavigation() {
+    const navLinks = document.querySelectorAll('.nav-link');
 
-        // 実際のページへのリンクの場合はそのまま遷移
-        if (href === '#home') {
-            e.preventDefault();
-            // ホーム（現在のページ）にいるのでスクロールだけ
-            document.querySelector('.village-map').scrollIntoView({
-                behavior: 'smooth'
-            });
-        } else if (href === '#music') {
-            e.preventDefault();
-            window.location.href = 'piano.html';
-        } else if (href === '#game') {
-            e.preventDefault();
-            window.location.href = 'games.html';
-        } else if (href === '#board') {
-            e.preventDefault();
-            window.location.href = 'board.html';
-        }
+    navLinks.forEach(link => {
+        const handleNavigation = (e) => {
+            const href = link.getAttribute('href');
 
-        // アクティブクラスの切り替え
-        navLinks.forEach(l => l.classList.remove('active'));
-        link.classList.add('active');
-    };
+            // 現在のページと同じリンクの場合は何もしない
+            if (href === window.location.pathname ||
+                (href === 'index.html' && window.location.pathname === '/') ||
+                (href === '#home' && window.location.pathname.includes('index'))) {
+                e.preventDefault();
+                return;
+            }
 
-    // タッチサポートを追加
-    addTouchSupport(link, handleNavigation);
-});
+            // 他のページへのリンクの場合はそのまま遷移
+            // モバイルメニューが開いている場合は閉じる
+            if (mobileMenuInstance && mobileMenuInstance.isOpen) {
+                mobileMenuInstance.close();
+            }
+
+            // アクティブクラスの切り替え
+            navLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+        };
+
+        // タッチサポートを追加
+        addTouchSupport(link, handleNavigation);
+    });
+}
 
 // 建物のクリック処理
 const buildings = document.querySelectorAll('.building');
@@ -408,62 +475,73 @@ buildings.forEach(building => {
 
 // DOM読み込み完了後に初期化
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🍔 ハンバーガーメニューデバッグ開始');
+    console.log('📱 DOM読み込み完了 - 初期化開始');
     console.log('画面幅:', window.innerWidth);
-    console.log('ビューポート:', window.innerWidth <= 768 ? 'モバイル' : 'デスクトップ');
+    console.log('デバイス判定:', window.innerWidth <= 768 ? 'モバイル' : 'デスクトップ');
 
-    // 要素の存在確認
-    const menuToggle = document.querySelector('.mobile-menu-toggle');
-    const nav = document.querySelector('.main-nav');
-    const overlay = document.querySelector('.mobile-overlay');
-
-    console.log('メニューボタン:', menuToggle);
-    console.log('ナビゲーション:', nav);
-    console.log('オーバーレイ:', overlay);
-
-    // 要素のスタイル確認
-    if (menuToggle) {
-        const menuStyle = getComputedStyle(menuToggle);
-        console.log('メニューボタン表示状態:', menuStyle.display);
-        console.log('メニューボタンz-index:', menuStyle.zIndex);
+    // モバイルメニューの初期化
+    try {
+        if (!mobileMenuInstance) {
+            mobileMenuInstance = new MobileMenu();
+            console.log('✅ MobileMenu インスタンス作成完了');
+        }
+    } catch (error) {
+        console.error('❌ MobileMenu初期化エラー:', error);
     }
 
-    if (nav) {
-        const navStyle = getComputedStyle(nav);
-        console.log('ナビ位置:', navStyle.position);
-        console.log('ナビright:', navStyle.right);
-        console.log('ナビz-index:', navStyle.zIndex);
+    // ナビゲーション処理の初期化
+    initNavigation();
+    console.log('🧭 ナビゲーション初期化完了');
+
+    // ビューポート高さ調整（モバイル対応）
+    function setViewportHeight() {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    setViewportHeight();
+
+    // リサイズ時のビューポート調整
+    window.addEventListener('resize', () => {
+        setViewportHeight();
+
+        // モバイルメニューが初期化されている場合の処理
+        if (mobileMenuInstance && mobileMenuInstance.isInitialized) {
+            mobileMenuInstance.setupMobileStyles();
+        }
+    }, { passive: true });
+
+    // タッチデバイス判定
+    if ('ontouchstart' in window) {
+        document.body.classList.add('touch-device');
+        console.log('📱 タッチデバイスとして認識');
     }
 
-    if (menuToggle && nav && overlay) {
-        console.log('✅ 全要素が存在 - MobileMenu初期化');
-        const mobileMenu = new MobileMenu();
-
-        // テスト用クリックリスナー
-        menuToggle.addEventListener('click', () => {
-            console.log('🍔 ハンバーガーメニューがクリックされました');
-            console.log('クリック後のclassName:', menuToggle.className);
-            console.log('ナビのclassName:', nav.className);
-            console.log('オーバーレイのclassName:', overlay.className);
-        });
-    } else {
-        console.error('❌ 必要な要素が見つかりません');
-        console.error('不足要素: ', {
-            menuToggle: !!menuToggle,
-            nav: !!nav,
-            overlay: !!overlay
-        });
+    // iOS Safari対応
+    if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+        console.log('🍎 iOS Safari対応を適用');
+        // 仮想キーボード対応
+        window.addEventListener('scroll', () => {
+            if (document.activeElement &&
+                (document.activeElement.tagName === 'INPUT' ||
+                    document.activeElement.tagName === 'TEXTAREA')) {
+                setTimeout(() => {
+                    document.activeElement.scrollIntoView({
+                        block: 'center',
+                        behavior: 'smooth'
+                    });
+                }, 300);
+            }
+        }, { passive: true });
     }
-
-    // モバイルメニュー初期化
 
     // スムーズスクロール（アンカーリンク用）
     const anchorLinks = document.querySelectorAll('a[href^="#"]');
     anchorLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             const targetId = link.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
+            if (targetId === '#') return;
 
+            const targetElement = document.querySelector(targetId);
             if (targetElement) {
                 e.preventDefault();
                 targetElement.scrollIntoView({
@@ -474,10 +552,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // タッチ最適化
-    if ('ontouchstart' in window) {
-        document.body.classList.add('touch-device');
-    }
+    console.log('🎉 初期化処理完了');
 });
 
 // ========================================

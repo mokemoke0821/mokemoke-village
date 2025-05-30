@@ -2,7 +2,7 @@
    🚀 緊急修正: ハンバーガーメニュー動作強化
    ======================================== */
 
-/* モバイル対応を確実に */
+/* すべてのデバイスサイズでハンバーガーメニューボタンを確実に表示 */
 @media (max-width: 768px) {
 
     /* ハンバーガーメニューボタンを確実に表示 */
@@ -18,24 +18,49 @@
         padding: 8px;
         z-index: 1001;
         position: relative;
+        margin-left: auto;
+        /* 右寄せを確実に */
+    }
+
+    /* ハンバーガーラインのスタイル */
+    .hamburger-line {
+        width: 25px;
+        height: 3px;
+        background: var(--primary-green) !important;
+        border-radius: 2px;
+        transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        transform-origin: center;
+        display: block !important;
+    }
+
+    /* ハンバーガーアニメーション */
+    .mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px) !important;
+    }
+
+    .mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+        opacity: 0 !important;
+        transform: scaleX(0) !important;
+    }
+
+    .mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px) !important;
     }
 
     /* ナビゲーションのスライドアウト動作を確実に */
     .main-nav {
         position: fixed !important;
-        top: 0;
+        top: 0 !important;
         right: -280px !important;
         /* 初期位置を右外に設定 */
-        width: 280px;
-        height: 100vh;
-        background: linear-gradient(135deg,
-                var(--pure-white) 0%,
-                var(--light-green) 100%);
-        box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
-        transition: right 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-        z-index: 1000;
-        padding-top: 80px;
-        overflow-y: auto;
+        width: 280px !important;
+        height: 100vh !important;
+        background: linear-gradient(135deg, #ffffff 0%, #e8f5e8 100%) !important;
+        box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15) !important;
+        transition: right 0.3s cubic-bezier(0.23, 1, 0.32, 1) !important;
+        z-index: 1000 !important;
+        padding: 80px 20px 20px 20px !important;
+        overflow-y: auto !important;
     }
 
     /* アクティブ時に右から出現 */
@@ -43,75 +68,95 @@
         right: 0 !important;
     }
 
+    /* オーバーレイの設定 */
+    .mobile-overlay {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        background: rgba(0, 0, 0, 0.5) !important;
+        backdrop-filter: blur(4px) !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transition: all 0.3s ease !important;
+        z-index: 999 !important;
+    }
+
+    .mobile-overlay.active {
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
     /* ナビリスト：縦配置 */
     .nav-list {
-        flex-direction: column;
-        gap: 0;
-        padding: 20px;
-        margin: 0;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        list-style: none !important;
     }
 
     /* ナビリンク：モバイル最適化 */
     .nav-link {
-        width: 100%;
-        padding: 16px 20px;
-        margin-bottom: 8px;
-        border-radius: 12px;
-        font-size: 1.1rem;
-        text-align: left;
-        display: flex;
-        align-items: center;
-        min-height: 44px;
+        width: 100% !important;
+        padding: 16px 20px !important;
+        margin-bottom: 8px !important;
+        border-radius: 12px !important;
+        font-size: 1.1rem !important;
+        text-align: left !important;
+        display: flex !important;
+        align-items: center !important;
+        min-height: 44px !important;
+        text-decoration: none !important;
+        color: var(--text-primary) !important;
+        background: linear-gradient(135deg, var(--pure-white) 0%, var(--soft-gray) 100%) !important;
+        border: 1px solid rgba(33, 33, 33, 0.12) !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
 
         /* タッチフレンドリー */
-        touch-action: manipulation;
-        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation !important;
+        -webkit-tap-highlight-color: transparent !important;
     }
 
-    /* モバイル専用アニメーション */
-    .nav-link {
-        transform: translateX(20px);
-        opacity: 0;
-        animation: slideInNav 0.3s ease forwards;
+    .nav-link:hover,
+    .nav-link:focus {
+        background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%) !important;
+        color: white !important;
+        transform: translateY(-2px) !important;
     }
 
-    .nav-link:nth-child(1) {
-        animation-delay: 0.1s;
-    }
+    /* デスクトップでハンバーガーメニューを隠す */
+    @media (min-width: 769px) {
+        .mobile-menu-toggle {
+            display: none !important;
+        }
 
-    .nav-link:nth-child(2) {
-        animation-delay: 0.2s;
-    }
+        .main-nav {
+            position: static !important;
+            right: auto !important;
+            width: auto !important;
+            height: auto !important;
+            background: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            overflow: visible !important;
+        }
 
-    .nav-link:nth-child(3) {
-        animation-delay: 0.3s;
-    }
+        .mobile-overlay {
+            display: none !important;
+        }
 
-    .nav-link:nth-child(4) {
-        animation-delay: 0.4s;
-    }
+        .nav-list {
+            flex-direction: row !important;
+            gap: 30px !important;
+        }
 
-    /* ハンバーガーアニメーション */
-    .hamburger-line {
-        width: 25px;
-        height: 3px;
-        background: var(--primary-green);
-        border-radius: 2px;
-        transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-        transform-origin: center;
-    }
-
-    .mobile-menu-toggle.active .hamburger-line:nth-child(1) {
-        transform: rotate(45deg) translate(6px, 6px);
-    }
-
-    .mobile-menu-toggle.active .hamburger-line:nth-child(2) {
-        opacity: 0;
-        transform: scaleX(0);
-    }
-
-    .mobile-menu-toggle.active .hamburger-line:nth-child(3) {
-        transform: rotate(-45deg) translate(6px, -6px);
+        .nav-link {
+            width: auto !important;
+            margin: 0 !important;
+        }
     }
 }
 
