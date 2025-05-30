@@ -2733,3 +2733,592 @@ body {
 }
 
 /* 🎉 完成：Awwwards Site of the Year候補レベル 🎉 */
+
+/* ========================================
+   📱 モバイル対応レスポンシブデザイン
+   ======================================== */
+
+/* タブレット対応 */
+@media (max-width: 768px) {
+
+    /* ヘッダー・ナビゲーション */
+    .site-header {
+        padding: 10px 15px;
+    }
+
+    .site-title {
+        font-size: var(--font-size-xl);
+    }
+
+    .main-nav ul {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .nav-link {
+        padding: 12px 16px;
+        font-size: var(--font-size-sm);
+    }
+
+    /* 村コンテナ */
+    .village-container {
+        flex-direction: column;
+        gap: 20px;
+        padding: 15px;
+    }
+
+    /* 建物 */
+    .building {
+        max-width: 100%;
+        min-height: 140px;
+        padding: 20px;
+    }
+
+    .building-body h3 {
+        font-size: var(--font-size-lg);
+    }
+
+    .building-body p {
+        font-size: var(--font-size-sm);
+    }
+
+    /* モーダル */
+    .modal-content {
+        width: 95vw;
+        max-width: 600px;
+        margin: 10px auto;
+        padding: 20px;
+    }
+
+    /* フォーム */
+    .form-group {
+        margin-bottom: 16px;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+        padding: 12px;
+        font-size: 16px;
+        /* iOSズーム防止 */
+    }
+
+    /* ボタン */
+    .nav-button,
+    .add-song-btn,
+    .add-game-btn,
+    .post-btn {
+        min-height: 44px;
+        padding: 12px 16px;
+        font-size: var(--font-size-base);
+    }
+}
+
+/* スマホ対応 */
+@media (max-width: 480px) {
+
+    /* 基本レイアウト */
+    body {
+        font-size: var(--font-size-sm);
+    }
+
+    /* ヘッダー */
+    .site-header {
+        padding: 8px 12px;
+    }
+
+    .site-title {
+        font-size: var(--font-size-lg);
+        margin-bottom: 10px;
+    }
+
+    /* ナビゲーション */
+    .main-nav ul {
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .nav-link,
+    .back-btn {
+        width: 100%;
+        min-height: 44px;
+        padding: 12px;
+        font-size: 16px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* メインコンテンツ */
+    .main-content {
+        padding: 10px;
+    }
+
+    .content {
+        padding: 10px;
+    }
+
+    /* 村のレイアウト */
+    .village-container {
+        flex-direction: column;
+        gap: 15px;
+        padding: 10px;
+    }
+
+    .buildings-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .building {
+        width: 100%;
+        max-width: none;
+        min-height: 120px;
+        padding: 15px;
+    }
+
+    .building-icon {
+        font-size: 2rem;
+        margin-bottom: 8px;
+    }
+
+    .building-body h3 {
+        font-size: var(--font-size-base);
+        margin-bottom: 8px;
+    }
+
+    .building-body p {
+        font-size: var(--font-size-xs);
+        line-height: 1.4;
+    }
+
+    /* 掲示板エリア */
+    .board-area {
+        width: 100%;
+        margin: 15px 0;
+    }
+
+    .bulletin-board {
+        transform: none;
+        margin-bottom: 20px;
+    }
+
+    .board-frame {
+        padding: 15px;
+    }
+
+    .board-frame h3 {
+        font-size: var(--font-size-base);
+    }
+
+    .board-content p {
+        font-size: var(--font-size-xs);
+    }
+
+    /* もけもけキャラクター */
+    .mokemoke-resident {
+        position: static;
+        margin: 10px auto;
+        transform: none;
+    }
+
+    /* モーダル */
+    .modal-content {
+        width: 95vw;
+        max-width: none;
+        margin: 20px auto;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    .modal-content.large {
+        width: 98vw;
+        margin: 10px auto;
+    }
+
+    .modal-content.small {
+        width: 90vw;
+    }
+
+    .modal-header h2 {
+        font-size: var(--font-size-lg);
+    }
+
+    /* フォーム */
+    .form-row {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        font-size: var(--font-size-sm);
+        margin-bottom: 8px;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+        width: 100%;
+        padding: 14px;
+        font-size: 16px;
+        /* iOSズーム防止 */
+        border-radius: 8px;
+    }
+
+    .form-textarea {
+        min-height: 100px;
+    }
+
+    .form-textarea.large {
+        min-height: 120px;
+    }
+
+    /* ボタン */
+    .form-actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .save-btn,
+    .post-btn,
+    .add-song-btn,
+    .add-game-btn {
+        width: 100%;
+        min-height: 44px;
+        padding: 14px;
+        font-size: 16px;
+    }
+
+    .cancel-btn,
+    .clear-btn,
+    .close-btn {
+        width: 100%;
+        min-height: 44px;
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    /* 検索・フィルターパネル */
+    .search-panel,
+    .filter-panel {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .search-controls {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .search-input,
+    .filter-select {
+        width: 100%;
+        min-height: 44px;
+        font-size: 16px;
+    }
+
+    /* カテゴリフィルター */
+    .category-filters {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .category-btn {
+        flex: 1;
+        min-width: calc(50% - 4px);
+        min-height: 44px;
+        font-size: var(--font-size-xs);
+        padding: 10px 8px;
+    }
+
+    /* ゲームグリッド・曲リスト */
+    .games-grid,
+    .song-list {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .game-card,
+    .song-card {
+        margin-bottom: 15px;
+        padding: 15px;
+    }
+
+    .card-header h3 {
+        font-size: var(--font-size-base);
+    }
+
+    .card-meta {
+        font-size: var(--font-size-xs);
+    }
+
+    .card-description {
+        font-size: var(--font-size-sm);
+    }
+
+    /* カードボタン */
+    .card-buttons {
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 12px;
+    }
+
+    .card-buttons button {
+        width: 100%;
+        min-height: 44px;
+        font-size: 16px;
+    }
+
+    /* 投稿フォーム */
+    .post-form-panel {
+        padding: 15px;
+    }
+
+    .post-form .form-row {
+        flex-direction: column;
+    }
+
+    .char-count {
+        font-size: var(--font-size-xs);
+    }
+
+    /* 投稿一覧 */
+    .posts-header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+
+    .posts-info {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .clear-all-btn {
+        width: 100%;
+        min-height: 44px;
+    }
+
+    .post-card {
+        padding: 15px;
+    }
+
+    .post-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .post-meta {
+        font-size: var(--font-size-xs);
+    }
+
+    .post-title {
+        font-size: var(--font-size-base);
+    }
+
+    .post-content {
+        font-size: var(--font-size-sm);
+    }
+
+    /* 削除ボタン */
+    .delete-post-btn {
+        min-height: 36px;
+        min-width: 36px;
+    }
+
+    /* 空の状態 */
+    .empty-state {
+        padding: 30px 15px;
+    }
+
+    .empty-icon {
+        font-size: 3rem;
+    }
+
+    .empty-state h3 {
+        font-size: var(--font-size-lg);
+    }
+
+    .empty-state p {
+        font-size: var(--font-size-sm);
+    }
+
+    /* 統計情報 */
+    .stats {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+    }
+
+    .song-count,
+    .game-count,
+    .post-count {
+        font-size: var(--font-size-sm);
+    }
+
+    /* フッター */
+    .site-footer {
+        padding: 20px 15px;
+        text-align: center;
+    }
+
+    .site-footer p {
+        font-size: var(--font-size-xs);
+    }
+}
+
+/* 極小スクリーン対応 */
+@media (max-width: 360px) {
+    .site-title {
+        font-size: var(--font-size-base);
+    }
+
+    .building {
+        min-height: 100px;
+        padding: 12px;
+    }
+
+    .building-icon {
+        font-size: 1.5rem;
+    }
+
+    .modal-content {
+        width: 100vw;
+        margin: 0;
+        border-radius: 0;
+        min-height: 100vh;
+    }
+
+    .category-btn {
+        min-width: 100%;
+        margin-bottom: 4px;
+    }
+}
+
+/* タッチデバイス対応 */
+@media (hover: none) and (pointer: coarse) {
+
+    /* タッチターゲットサイズ確保 */
+    button,
+    .nav-link,
+    .building {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    /* ホバー効果を無効化 */
+    .building:hover,
+    .nav-link:hover,
+    button:hover {
+        transform: none;
+    }
+
+    /* タッチ時のフィードバック */
+    .building:active,
+    .nav-link:active,
+    button:active {
+        transform: scale(0.95);
+        transition: transform 0.1s ease;
+    }
+}
+
+/* 高解像度ディスプレイ対応 */
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+    body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+/* 縦向き固定推奨 */
+@media (orientation: landscape) and (max-height: 500px) {
+    .modal-content {
+        max-height: 95vh;
+        overflow-y: auto;
+    }
+
+    .building {
+        min-height: auto;
+        padding: 10px;
+    }
+}
+
+/* ダークモード対応（準備） */
+@media (prefers-color-scheme: dark) {
+    /* 必要に応じてダークモードスタイルを追加 */
+}
+
+/* アニメーション軽減設定 */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* 高コントラスト対応 */
+@media (prefers-contrast: high) {
+
+    .building,
+    .modal-content,
+    .form-input,
+    .form-select,
+    .form-textarea {
+        border: 2px solid var(--text-primary);
+    }
+
+    button {
+        border: 2px solid var(--text-primary);
+    }
+}
+
+/* ========================================
+   🎯 フォーカス管理とアクセシビリティ
+   ======================================== */
+
+/* キーボードナビゲーション */
+*:focus {
+    outline: 3px solid var(--primary-green);
+    outline-offset: 2px;
+}
+
+/* スキップリンク */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: var(--primary-green);
+    color: white;
+    padding: 8px;
+    text-decoration: none;
+    z-index: 9999;
+}
+
+.skip-link:focus {
+    top: 6px;
+}
+
+/* スクリーンリーダー専用 */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}

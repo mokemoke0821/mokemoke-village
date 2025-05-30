@@ -1,5 +1,76 @@
 // もけもけの村 - 村の掲示板
-// 投稿管理システム
+// コミュニティ投稿管理システム
+
+// タッチイベントサポート関数
+function addTouchSupport(element, clickHandler) {
+  let touchStartTime = 0;
+  let touchStartPos = { x: 0, y: 0 };
+
+  // タッチ開始
+  element.addEventListener('touchstart', (e) => {
+    touchStartTime = Date.now();
+    const touch = e.touches[0];
+    touchStartPos = { x: touch.clientX, y: touch.clientY };
+  }, { passive: true });
+
+  // タッチ終了
+  element.addEventListener('touchend', (e) => {
+    const touchEndTime = Date.now();
+    const touchDuration = touchEndTime - touchStartTime;
+
+    // 短時間のタッチ（500ms以下）をタップとして処理
+    if (touchDuration < 500) {
+      const touch = e.changedTouches[0];
+      const touchEndPos = { x: touch.clientX, y: touch.clientY };
+      const distance = Math.sqrt(
+        Math.pow(touchEndPos.x - touchStartPos.x, 2) +
+        Math.pow(touchEndPos.y - touchStartPos.y, 2)
+      );
+
+      // 移動距離が小さい場合（15px以下）をタップとして処理
+      if (distance < 15) {
+        clickHandler(e);
+      }
+    }
+  }, { passive: true });
+
+  // 通常のクリックイベントも追加（デスクトップ対応）
+  element.addEventListener('click', (e) => {
+    // タッチデバイスでない場合のみクリックイベントを処理
+    if (!('ontouchstart' in window)) {
+      clickHandler(e);
+    }
+  });
+}
+
+// モバイル対応のビューポート管理
+function initMobileSupport() {
+  // ビューポート高さ調整
+  const vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+  // 画面回転・リサイズ対応
+  window.addEventListener('resize', () => {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  }, { passive: true });
+
+  // iOS Safariの仮想キーボード対応
+  if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+    window.addEventListener('scroll', () => {
+      if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
+        setTimeout(() => {
+          document.activeElement.scrollIntoView({ block: 'center' });
+        }, 300);
+      }
+    }, { passive: true });
+  }
+}
+
+// 初期化
+document.addEventListener('DOMContentLoaded', () => {
+  initMobileSupport();
+});
 
 // サンプルデータ定数
 const SAMPLE_BOARD_POSTS = [

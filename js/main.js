@@ -6,10 +6,54 @@ window.addEventListener('load', () => {
     }, 1500);
 });
 
+// タッチイベントサポート関数
+function addTouchSupport(element, clickHandler) {
+    let touchStartTime = 0;
+    let touchStartPos = { x: 0, y: 0 };
+
+    // タッチ開始
+    element.addEventListener('touchstart', (e) => {
+        touchStartTime = Date.now();
+        const touch = e.touches[0];
+        touchStartPos = { x: touch.clientX, y: touch.clientY };
+        e.preventDefault(); // スクロール防止
+    }, { passive: false });
+
+    // タッチ終了
+    element.addEventListener('touchend', (e) => {
+        const touchEndTime = Date.now();
+        const touchDuration = touchEndTime - touchStartTime;
+
+        // 短時間のタッチ（500ms以下）をタップとして処理
+        if (touchDuration < 500) {
+            const touch = e.changedTouches[0];
+            const touchEndPos = { x: touch.clientX, y: touch.clientY };
+            const distance = Math.sqrt(
+                Math.pow(touchEndPos.x - touchStartPos.x, 2) +
+                Math.pow(touchEndPos.y - touchStartPos.y, 2)
+            );
+
+            // 移動距離が小さい場合（10px以下）をタップとして処理
+            if (distance < 10) {
+                clickHandler(e);
+            }
+        }
+        e.preventDefault();
+    }, { passive: false });
+
+    // 通常のクリックイベントも追加（デスクトップ対応）
+    element.addEventListener('click', (e) => {
+        // タッチデバイスでない場合のみクリックイベントを処理
+        if (!('ontouchstart' in window)) {
+            clickHandler(e);
+        }
+    });
+}
+
 // ナビゲーションの処理
 const navLinks = document.querySelectorAll('.nav-link');
 navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
+    const handleNavigation = (e) => {
         const href = link.getAttribute('href');
 
         // 実際のページへのリンクの場合はそのまま遷移
@@ -33,13 +77,16 @@ navLinks.forEach(link => {
         // アクティブクラスの切り替え
         navLinks.forEach(l => l.classList.remove('active'));
         link.classList.add('active');
-    });
+    };
+
+    // タッチサポートを追加
+    addTouchSupport(link, handleNavigation);
 });
 
 // 建物のクリック処理
 const buildings = document.querySelectorAll('.building');
 buildings.forEach(building => {
-    building.addEventListener('click', () => {
+    const handleBuildingClick = () => {
         const house = building.dataset.house;
 
         // アニメーション効果
@@ -50,24 +97,32 @@ buildings.forEach(building => {
             // アニメーション後にページ遷移
             navigateToHouse(house);
         }, 500);
-    });
+    };
 
-    // ホバー時の効果音（オプション）
-    building.addEventListener('mouseenter', () => {
-        // 効果音を再生する処理をここに追加可能
-    });
+    // タッチサポートを追加
+    addTouchSupport(building, handleBuildingClick);
+
+    // ホバー時の効果音（デスクトップのみ）
+    if (!('ontouchstart' in window)) {
+        building.addEventListener('mouseenter', () => {
+            // 効果音を再生する処理をここに追加可能
+        });
+    }
 });
 
 // 掲示板のクリック処理
 const bulletinBoard = document.querySelector('.bulletin-board');
 if (bulletinBoard) {
-    bulletinBoard.addEventListener('click', () => {
+    const handleBoardClick = () => {
         bulletinBoard.style.animation = 'shake 0.5s ease';
         setTimeout(() => {
             bulletinBoard.style.animation = '';
             window.location.href = 'board.html';
         }, 500);
-    });
+    };
+
+    // タッチサポートを追加
+    addTouchSupport(bulletinBoard, handleBoardClick);
 }
 
 // 家への遷移処理
@@ -82,7 +137,7 @@ function navigateToHouse(house) {
 // もけもけキャラクターのインタラクション
 const mokemokeResidents = document.querySelectorAll('.mokemoke-resident');
 mokemokeResidents.forEach(mokemoke => {
-    mokemoke.addEventListener('click', () => {
+    const handleMokemokeClick = () => {
         mokemoke.style.animation = 'jump 0.5s ease';
         setTimeout(() => {
             mokemoke.style.animation = 'float 3s ease-in-out infinite';
@@ -90,8 +145,36 @@ mokemokeResidents.forEach(mokemoke => {
 
         // ランダムなメッセージを表示
         showMokemokeMessage(mokemoke);
-    });
+    };
+
+    // タッチサポートを追加
+    addTouchSupport(mokemoke, handleMokemokeClick);
 });
+
+// スクロール位置の管理（モバイル対応）
+let ticking = false;
+function updateScrollPosition() {
+    // スクロール関連の処理
+    ticking = false;
+}
+
+window.addEventListener('scroll', () => {
+    if (!ticking) {
+        requestAnimationFrame(updateScrollPosition);
+        ticking = true;
+    }
+}, { passive: true });
+
+// ビューポート変更時の処理
+window.addEventListener('resize', () => {
+    // 画面回転やサイズ変更時の処理
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+}, { passive: true });
+
+// 初期ビューポート設定
+const vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty('--vh', `${vh}px`);
 
 // もけもけメッセージ表示関数
 function showMokemokeMessage(mokemoke) {
@@ -127,6 +210,7 @@ function showMokemokeMessage(mokemoke) {
         white-space: nowrap;
         animation: fadeInOut 3s ease;
         z-index: 1000;
+        pointer-events: none;
     `;
 
     mokemoke.appendChild(bubble);
@@ -163,6 +247,26 @@ style.textContent = `
         15%, 85% { opacity: 1; transform: translateX(-50%) translateY(0); }
         100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
     }
+    
+    /* タッチフィードバック */
+    .building:active,
+    .nav-link:active,
+    .mokemoke-resident:active,
+    .bulletin-board:active {
+        transform: scale(0.95);
+        transition: transform 0.1s ease;
+    }
+    
+    /* モバイル専用スタイル */
+    @media (max-width: 480px) {
+        .message-bubble {
+            font-size: 12px !important;
+            padding: 6px 12px !important;
+            max-width: 150px;
+            word-wrap: break-word;
+            white-space: normal !important;
+        }
+    }
 `;
 document.head.appendChild(style);
 
@@ -190,4 +294,4 @@ window.addEventListener('beforeunload', () => {
     // 必要に応じてクリーンアップ処理を追加
 });
 
-console.log('もけもけの村へようこそ！🌱');
+console.log('もけもけの村へようこそ！🌱 (モバイル対応版)');
