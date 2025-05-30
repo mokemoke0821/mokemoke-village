@@ -1,0 +1,203 @@
+/* ========================================
+   🚀 緊急修正: ハンバーガーメニュー動作強化
+   ======================================== */
+
+/* モバイル対応を確実に */
+@media (max-width: 768px) {
+
+    /* ハンバーガーメニューボタンを確実に表示 */
+    .mobile-menu-toggle {
+        display: flex !important;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 44px;
+        height: 44px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        z-index: 1001;
+        position: relative;
+    }
+
+    /* ナビゲーションのスライドアウト動作を確実に */
+    .main-nav {
+        position: fixed !important;
+        top: 0;
+        right: -280px !important;
+        /* 初期位置を右外に設定 */
+        width: 280px;
+        height: 100vh;
+        background: linear-gradient(135deg,
+                var(--pure-white) 0%,
+                var(--light-green) 100%);
+        box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+        transition: right 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        z-index: 1000;
+        padding-top: 80px;
+        overflow-y: auto;
+    }
+
+    /* アクティブ時に右から出現 */
+    .main-nav.active {
+        right: 0 !important;
+    }
+
+    /* ナビリスト：縦配置 */
+    .nav-list {
+        flex-direction: column;
+        gap: 0;
+        padding: 20px;
+        margin: 0;
+    }
+
+    /* ナビリンク：モバイル最適化 */
+    .nav-link {
+        width: 100%;
+        padding: 16px 20px;
+        margin-bottom: 8px;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+
+        /* タッチフレンドリー */
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* モバイル専用アニメーション */
+    .nav-link {
+        transform: translateX(20px);
+        opacity: 0;
+        animation: slideInNav 0.3s ease forwards;
+    }
+
+    .nav-link:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .nav-link:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .nav-link:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+
+    .nav-link:nth-child(4) {
+        animation-delay: 0.4s;
+    }
+
+    /* ハンバーガーアニメーション */
+    .hamburger-line {
+        width: 25px;
+        height: 3px;
+        background: var(--primary-green);
+        border-radius: 2px;
+        transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        transform-origin: center;
+    }
+
+    .mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+    }
+
+    .mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+        opacity: 0;
+        transform: scaleX(0);
+    }
+
+    .mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
+    }
+}
+
+@keyframes slideInNav {
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* ========================================
+   🐛 パフォーマンス最適化: アニメーション軽量化
+   ======================================== */
+
+/* 複雑なアニメーションの軽量化 */
+@media (max-width: 768px) {
+
+    /* モバイルでは複雑なアニメーションを簡素化 */
+    .building:hover {
+        transform: translateY(-4px) scale(1.01) !important;
+        transition: transform 0.2s ease !important;
+    }
+
+    /* 背景アニメーションを軽量化 */
+    body::before,
+    body::after {
+        display: none !important;
+        /* モバイルでパーティクル無効化 */
+    }
+
+    body {
+        animation: none !important;
+        /* 複雑な背景アニメーション無効化 */
+        background: var(--gradient-sky) !important;
+        /* シンプルなグラデーションのみ */
+    }
+}
+
+/* GPU加速の強制適用 */
+.building,
+.nav-link,
+.mobile-menu-toggle,
+.main-nav {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* ========================================
+   📱 ボディスクロール制御とフォーカス管理
+   ======================================== */
+
+/* ボディスクロール制御 */
+body.menu-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+}
+
+/* フォーカス管理 */
+.mobile-menu-toggle:focus,
+.nav-link:focus {
+    outline: 3px solid var(--primary-green);
+    outline-offset: 2px;
+}
+
+/* 高コントラスト対応 */
+@media (prefers-contrast: high) {
+    .hamburger-line {
+        background: var(--text-primary);
+        height: 4px;
+    }
+
+    .mobile-overlay {
+        background: rgba(0, 0, 0, 0.8);
+    }
+}
+
+/* モーション軽減 */
+@media (prefers-reduced-motion: reduce) {
+
+    .mobile-menu-toggle,
+    .main-nav,
+    .mobile-overlay,
+    .nav-link {
+        transition: none !important;
+        animation: none !important;
+    }
+}

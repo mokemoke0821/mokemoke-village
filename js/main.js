@@ -408,8 +408,54 @@ buildings.forEach(building => {
 
 // DOM読み込み完了後に初期化
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('🍔 ハンバーガーメニューデバッグ開始');
+    console.log('画面幅:', window.innerWidth);
+    console.log('ビューポート:', window.innerWidth <= 768 ? 'モバイル' : 'デスクトップ');
+
+    // 要素の存在確認
+    const menuToggle = document.querySelector('.mobile-menu-toggle');
+    const nav = document.querySelector('.main-nav');
+    const overlay = document.querySelector('.mobile-overlay');
+
+    console.log('メニューボタン:', menuToggle);
+    console.log('ナビゲーション:', nav);
+    console.log('オーバーレイ:', overlay);
+
+    // 要素のスタイル確認
+    if (menuToggle) {
+        const menuStyle = getComputedStyle(menuToggle);
+        console.log('メニューボタン表示状態:', menuStyle.display);
+        console.log('メニューボタンz-index:', menuStyle.zIndex);
+    }
+
+    if (nav) {
+        const navStyle = getComputedStyle(nav);
+        console.log('ナビ位置:', navStyle.position);
+        console.log('ナビright:', navStyle.right);
+        console.log('ナビz-index:', navStyle.zIndex);
+    }
+
+    if (menuToggle && nav && overlay) {
+        console.log('✅ 全要素が存在 - MobileMenu初期化');
+        const mobileMenu = new MobileMenu();
+
+        // テスト用クリックリスナー
+        menuToggle.addEventListener('click', () => {
+            console.log('🍔 ハンバーガーメニューがクリックされました');
+            console.log('クリック後のclassName:', menuToggle.className);
+            console.log('ナビのclassName:', nav.className);
+            console.log('オーバーレイのclassName:', overlay.className);
+        });
+    } else {
+        console.error('❌ 必要な要素が見つかりません');
+        console.error('不足要素: ', {
+            menuToggle: !!menuToggle,
+            nav: !!nav,
+            overlay: !!overlay
+        });
+    }
+
     // モバイルメニュー初期化
-    new MobileMenu();
 
     // スムーズスクロール（アンカーリンク用）
     const anchorLinks = document.querySelectorAll('a[href^="#"]');
