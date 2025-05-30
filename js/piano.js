@@ -1,6 +1,105 @@
 // もけもけの村 - 音楽の家
 // ピアノ曲リスト管理システム
 
+// サンプルデータ定数
+const SAMPLE_PIANO_SONGS = [
+  // クラシック
+  {
+    id: "sample_1",
+    title: "エリーゼのために",
+    composer: "ベートーヴェン",
+    genre: "クラシック",
+    difficulty: "初級",
+    notes: "配信でよくリクエストされる定番曲。ゆっくり弾くと初心者でも楽しめます。",
+    createdAt: "2024-01-15T09:30:00.000Z"
+  },
+  {
+    id: "sample_2",
+    title: "月光ソナタ 第1楽章",
+    composer: "ベートーヴェン",
+    genre: "クラシック",
+    difficulty: "中級",
+    notes: "幻想的な雰囲気。夜の配信にぴったりの美しい曲です。",
+    createdAt: "2024-01-20T14:15:00.000Z"
+  },
+  {
+    id: "sample_3",
+    title: "ラ・カンパネラ",
+    composer: "リスト",
+    genre: "クラシック",
+    difficulty: "上級",
+    notes: "超絶技巧曲。完璧に弾けたときの達成感は最高です！",
+    createdAt: "2024-02-01T16:45:00.000Z"
+  },
+
+  // アニメ・ゲーム
+  {
+    id: "sample_4",
+    title: "炎",
+    composer: "LiSA",
+    genre: "アニメ",
+    difficulty: "中級",
+    notes: "鬼滅の刃主題歌。視聴者のリクエスト多数の人気曲。",
+    createdAt: "2024-02-10T11:20:00.000Z"
+  },
+  {
+    id: "sample_5",
+    title: "千本桜",
+    composer: "黒うさP",
+    genre: "ボカロ",
+    difficulty: "中級",
+    notes: "ボカロの定番。コメントが盛り上がる楽しい曲です。",
+    createdAt: "2024-02-15T19:30:00.000Z"
+  },
+  {
+    id: "sample_6",
+    title: "スーパーマリオブラザーズ メインテーマ",
+    composer: "近藤浩治",
+    genre: "ゲーム音楽",
+    difficulty: "初級",
+    notes: "誰もが知ってる名曲。コメントで一緒に歌ってくれます♪",
+    createdAt: "2024-02-20T15:00:00.000Z"
+  },
+
+  // ポップス・ジャズ
+  {
+    id: "sample_7",
+    title: "津軽海峡冬景色",
+    composer: "石川さゆり",
+    genre: "歌謡曲",
+    difficulty: "初級",
+    notes: "年配の視聴者に喜ばれる。しみじみとした雰囲気が魅力。",
+    createdAt: "2024-02-25T13:45:00.000Z"
+  },
+  {
+    id: "sample_8",
+    title: "Fly Me to the Moon",
+    composer: "Frank Sinatra",
+    genre: "ジャズ",
+    difficulty: "中級",
+    notes: "エヴァでも使われた名曲。おしゃれな夜の配信に最適。",
+    createdAt: "2024-03-01T20:15:00.000Z"
+  },
+  {
+    id: "sample_9",
+    title: "カノン",
+    composer: "パッヘルベル",
+    genre: "クラシック",
+    difficulty: "初級",
+    notes: "結婚式でよく流れる美しいメロディー。心が落ち着きます。",
+    createdAt: "2024-03-05T10:30:00.000Z"
+  },
+  {
+    id: "sample_10",
+    title: "残酷な天使のテーゼ",
+    composer: "佐藤英敏",
+    genre: "アニメ",
+    difficulty: "中級",
+    notes: "エヴァの主題歌。みんなで歌える盛り上がり曲です！",
+    createdAt: "2024-03-10T17:20:00.000Z"
+  }
+];
+
 class PianoManager {
   constructor() {
     this.songs = [];
@@ -9,10 +108,26 @@ class PianoManager {
   }
 
   init() {
+    this.initializeSampleData();
     this.loadSongs();
     this.bindEvents();
     this.renderSongs();
     this.updateStats();
+  }
+
+  // サンプルデータ初期化（初回訪問時のみ）
+  initializeSampleData() {
+    const existingSongs = localStorage.getItem('mokemoke_piano_songs');
+
+    // 初回訪問時のみサンプルデータを挿入
+    if (!existingSongs || existingSongs === '[]') {
+      localStorage.setItem('mokemoke_piano_songs', JSON.stringify(SAMPLE_PIANO_SONGS));
+
+      // サンプルデータ読み込み通知
+      setTimeout(() => {
+        this.showMessage('♪ サンプル曲を読み込みました！初回訪問ありがとうございます🎹');
+      }, 1000);
+    }
   }
 
   // ローカルストレージ関連
