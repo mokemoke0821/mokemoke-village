@@ -63,10 +63,14 @@ class MobileMenu {
         // ナビリンククリックでメニューを閉じる
         const navLinks = this.nav.querySelectorAll('.nav-link');
         navLinks.forEach(link => {
-            link.addEventListener('click', () => {
+            link.addEventListener('click', (e) => {
+                // モバイルメニューが開いている場合のみ処理
                 if (window.innerWidth <= 768 && this.isOpen) {
                     console.log('🔗 ナビリンククリックでメニューを閉じる');
-                    this.close();
+                    // メニューを閉じる（遷移は自然に任せる）
+                    setTimeout(() => {
+                        this.close();
+                    }, 100); // 少し遅延させて確実な遷移を保証
                 }
             });
         });
@@ -191,22 +195,24 @@ window.addEventListener('load', () => {
 function addTouchSupport(element, clickHandler) {
     let touchStartTime = 0;
     let touchStartPos = { x: 0, y: 0 };
+    let touchHandled = false;
 
     // タッチ開始
     element.addEventListener('touchstart', (e) => {
         touchStartTime = Date.now();
         const touch = e.touches[0];
         touchStartPos = { x: touch.clientX, y: touch.clientY };
-        e.preventDefault(); // スクロール防止
-    }, { passive: false });
+        touchHandled = false;
+        // スクロール防止は削除（自然なスクロールを許可）
+    }, { passive: true });
 
     // タッチ終了
     element.addEventListener('touchend', (e) => {
         const touchEndTime = Date.now();
         const touchDuration = touchEndTime - touchStartTime;
 
-        // 短時間のタッチ（500ms以下）をタップとして処理
-        if (touchDuration < 500) {
+        // 短時間のタッチ（300ms以下）をタップとして処理
+        if (touchDuration < 300 && !touchHandled) {
             const touch = e.changedTouches[0];
             const touchEndPos = { x: touch.clientX, y: touch.clientY };
             const distance = Math.sqrt(
@@ -214,20 +220,27 @@ function addTouchSupport(element, clickHandler) {
                 Math.pow(touchEndPos.y - touchStartPos.y, 2)
             );
 
-            // 移動距離が小さい場合（10px以下）をタップとして処理
-            if (distance < 10) {
+            // 移動距離が小さい場合（15px以下）をタップとして処理
+            if (distance < 15) {
+                touchHandled = true;
+                console.log('📱 タッチタップ検出');
                 clickHandler(e);
+                // タッチの場合は preventDefault でクリックイベントの重複を防ぐ
+                e.preventDefault();
             }
         }
-        e.preventDefault();
     }, { passive: false });
 
-    // 通常のクリックイベントも追加（デスクトップ対応）
+    // 通常のクリックイベント（デスクトップ＋タッチが処理されなかった場合）
     element.addEventListener('click', (e) => {
-        // タッチデバイスでない場合のみクリックイベントを処理
-        if (!('ontouchstart' in window)) {
-            clickHandler(e);
+        // タッチイベントで処理済みの場合は無視
+        if (touchHandled) {
+            touchHandled = false; // リセット
+            return;
         }
+        console.log('🖱️ クリックイベント検出');
+        // デスクトップまたはタッチが失敗した場合のフォールバック
+        // ここではpreventDefaultしない（自然なリンク遷移を許可）
     });
 }
 
@@ -239,26 +252,40 @@ function initNavigation() {
         const handleNavigation = (e) => {
             const href = link.getAttribute('href');
 
-            // 現在のページと同じリンクの場合は何もしない
-            if (href === window.location.pathname ||
-                (href === 'index.html' && window.location.pathname === '/') ||
-                (href === '#home' && window.location.pathname.includes('index'))) {
-                e.preventDefault();
-                return;
-            }
+            console.log('🔗 ナビリンククリック:', href);
 
-            // 他のページへのリンクの場合はそのまま遷移
             // モバイルメニューが開いている場合は閉じる
             if (mobileMenuInstance && mobileMenuInstance.isOpen) {
+                console.log('📱 モバイルメニューを閉じる');
                 mobileMenuInstance.close();
             }
+
+            // アンカーリンク（#）の場合のみ特別処理
+            if (href && href.startsWith('#')) {
+                const targetId = href.substring(1);
+                if (targetId === 'home') {
+                    e.preventDefault();
+                    // ホームページにスクロール
+                    const villageMap = document.querySelector('.village-map');
+                    if (villageMap) {
+                        villageMap.scrollIntoView({ behavior: 'smooth' });
+                    }
+                    return;
+                }
+            }
+
+            // 通常のリンク（.html）の場合は自然な遷移を許可
+            // preventDefault() は呼ばない
 
             // アクティブクラスの切り替え
             navLinks.forEach(l => l.classList.remove('active'));
             link.classList.add('active');
         };
 
-        // タッチサポートを追加
+        // 通常のクリックイベントも追加（より確実）
+        link.addEventListener('click', handleNavigation);
+
+        // タッチサポートを追加（補助的）
         addTouchSupport(link, handleNavigation);
     });
 }
